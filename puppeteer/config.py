@@ -16,3 +16,24 @@ class YAMLFileReader():
 
 	def __init__(self):
 		self.infile = USER_CONFIG
+
+
+	def _validate_path(self):
+		
+		if not os.path.exists(self.infile):
+			raise YAMLFileReaderError("File '%s' does not exist. Are you in the Ansible control repo root directory?" % self.infile )
+
+
+	def read(self): 
+
+		self._validate_path()
+
+		try:
+			with open(self.infile, 'r') as stream:
+				return yaml.load(stream)
+		except yaml.YAMLError as e:
+			if hasattr(e, 'problem_mark'):
+				mark = e.problem_mark
+				raise YAMLFileReaderError("%s has errors in position in line %s, column %s" % (self.infile,mark.line+1, mark.column+1))
+			else:
+				raise YAMLFileReaderError("Something went wrong while attempting to read %s" % self.infile )
