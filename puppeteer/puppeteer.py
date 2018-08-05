@@ -5,7 +5,7 @@ from config import YAMLFileReader, YAMLFileReaderError
 def main():
 
 	try:
-		user_config = YAMLFileReader()
+		user_config = YAMLFileReader().read()
 		print (user_config)
 	except YAMLFileReaderError, e:
 		print(e)
