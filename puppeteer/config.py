@@ -21,7 +21,7 @@ class YAMLFileReader():
 	def _validate_path(self):
 		
 		if not os.path.exists(self.infile):
-			raise YAMLFileReaderError("File '%s' does not exist. Are you in the Ansible control repo root directory?" % self.infile )
+			raise YAMLFileReaderError("User config file '%s' does not exist in current directory. File must be created if you are running puppeteer for the first time." % self.infile )
 
 
 	def read(self): 
