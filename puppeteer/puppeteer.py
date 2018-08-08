@@ -10,14 +10,19 @@ def main():
 
 	try:
 		user_config = YAMLFileReader().read()
-		# Debug
-		print (user_config)	
 	except YAMLFileReaderError, e:
-		print(e)
+		print(color('red',e))
+		sys.exit(1)
 
+	# Initialize repository
 	if cli.sub_cmd == 'init':
-		print('do init stuff')
-		bootstrap = BootstrapController(user_config)
+
+		try:
+			bootstrap = BootstrapController(user_config)
+			bootstrap.create_layout()
+		except BootstrapControllerError, e:
+			print(color('red',e))
+			sys.exit(1)
 
 	elif cli.sub_cmd == 'tag':
 		print('do tag stuff')
