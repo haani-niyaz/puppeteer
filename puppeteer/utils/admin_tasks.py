@@ -11,9 +11,8 @@ class AdminTasksError(Exception):
     """An exception that occurs when performing administrative operations"""
     pass
 
-
 def make_dirs(dirs):
-    """Create directories recursively"""
+    """Create directories recursively if it does not exist"""
 
     try:
         os.makedirs(dirs)
