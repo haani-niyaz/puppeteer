@@ -10,14 +10,34 @@ class BootstrapController():
 
 	def __init__(self, config):
 		self.config = config
+		self.env_dir = 'environments'
+		self.group_dir = 'group_vars'
+		self.host_dir = 'host_vars'
+		self.repo_file = 'requirements.yml'
 
-	def create_environments(self):
-		"""Create control repo environments"""
-		pass
+	def create_layout(self):
+		"""Create control repo layout"""
+		
+		print(color('cyan','[ ] Initializing environments..'))
 
-	def create_requirements(self):
-		"""Create requirements.yml"""
-		pass
+		if not self.env_dir in self.config:
+			raise BootstrapControllerError('Oops! does your .puppeteer.yml have a list of environments?')
+	
+		try: 
+			for sub_dir in self.config['environments']:
+
+				admin_tasks.make_dirs("{0}/{1}/{2}".format(self.env_dir, sub_dir, self.group_dir))
+				admin_tasks.make_dirs("{0}/{1}/{2}".format(self.env_dir, sub_dir, self.host_dir))
+				admin_tasks.make_file("{0}/{1}/{2}".format(self.env_dir, sub_dir, self.repo_file))
+
+		except admin_tasks.AdminTasksError, e:
+			print(e)
+			sys.exit(1)
+
+		time.sleep(0.4)
+		print(color('cyan','[x] Done.'))
+
+
 
 	def summary(self):
 		"""Bootstrap summary"""
