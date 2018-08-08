@@ -19,7 +19,15 @@ def make_dirs(dirs):
         os.makedirs(dirs)
     except OSError, e:
         if e.errno == errno.EEXIST:
-            return ("'%s' Directory already exists" % dirs)
+            return("'{0}' directory already exists".format(dirs))
         else:
             raise AdminTasksError(
-                "Backup directory creation failed with error %s" % str(e))
+                "Backup directory creation failed with error {0}".format(str(e)) )
+
+def  make_file(infile):
+    """Create a file if does not exist"""
+
+    if not os.path.exists(infile):
+        with open(infile, 'w'): pass
+    else:
+        return("'{0}' file already exists".format(infile))
