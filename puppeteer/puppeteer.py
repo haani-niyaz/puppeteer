@@ -1,8 +1,10 @@
 """Application behaviour"""
 
+import sys
 from config import YAMLFileReader, YAMLFileReaderError
 import cmd_options
-from controllers.bootstrap import BootstrapController
+from controllers.bootstrap import BootstrapController, BootstrapControllerError
+from colourize import color
 
 def main():
 
