@@ -3,8 +3,6 @@
 import os
 import yaml
 
-USER_CONFIG='.puppeteer.yml'
-
 
 class YAMLFileReaderError(Exception):
 	"""An exception that occurs when a config file fails to load"""
@@ -14,14 +12,14 @@ class YAMLFileReaderError(Exception):
 class YAMLFileReader():
 	"""Read YAML files"""
 
-	def __init__(self):
-		self.infile = USER_CONFIG
+	def __init__(self, config_file):
+		self.infile = config_file
 
 
 	def _validate_path(self):
 		
 		if not os.path.exists(self.infile):
-			raise YAMLFileReaderError("User config file '%s' does not exist in current directory. File must be created if you are running puppeteer for the first time." % self.infile )
+			raise YAMLFileReaderError("User config file '%s' does not exist in current directory." % self.infile )
 
 
 	def read(self): 
