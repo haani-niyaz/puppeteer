@@ -19,7 +19,7 @@ class YAMLFile():
 	def _validate_path(self):
 		
 		if not os.path.exists(self.infile):
-			raise YAMLFile("User config file '%s' does not exist in current directory." % self.infile )
+			raise YAMLFileError("User config file {0} does not exist in current directory.".format(self.infile))
 
 
 	def read(self): 
