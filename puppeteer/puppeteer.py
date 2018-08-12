@@ -6,6 +6,7 @@ import cmd_options
 from controllers.bootstrap import BootstrapController, BootstrapControllerError
 from controllers.tag import Tag, TagError
 from colourize import color
+from time import sleep
 
 USER_CONFIG='.puppeteer.yml'
 REQUIREMENTS='requirements.yml'
@@ -24,8 +25,13 @@ def main():
 			print(color('red', "<Puppeteer> : File must be created if you are running puppeteer for the first time"))
 			sys.exit(1)
 		try:
+			
 			bootstrap = BootstrapController(user_config)
+			print(color('cyan','[ ] Initializing environments..'))
 			bootstrap.create_layout()
+			sleep(0.4)
+			print(color('cyan','[x] Done.'))
+
 		except BootstrapControllerError, e:
 			print(color('red',e))
 			sys.exit(1)

@@ -3,7 +3,6 @@
 from utils import admin_tasks
 from colourize import color
 import sys
-import time
 
 class BootstrapControllerError(Exception):
 	"""An exception that occurs when Bootstrapping a repo"""
@@ -27,8 +26,6 @@ class BootstrapController():
 
 	def create_layout(self):
 		"""Create control repo layout"""
-		
-		print(color('cyan','[ ] Initializing environments..'))
 	
 		try: 
 			for sub_dir in self.dirs:
@@ -40,10 +37,6 @@ class BootstrapController():
 		except admin_tasks.AdminTasksError, e:
 			print(e)
 			sys.exit(1)
-
-		time.sleep(0.4)
-		print(color('cyan','[x] Done.'))
-
 
 
 	def summary(self):
