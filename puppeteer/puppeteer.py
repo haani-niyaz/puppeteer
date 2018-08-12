@@ -61,8 +61,10 @@ def main():
 
 		try:
 			content.write(updated_repo_list)
-			print('Update was successful:')
+			print(color('cyan','[ ] Updating tag..'))
 			print(color('green', tag.confirm_tag(cli.role)))
+			sleep(0.4)
+			print(color('cyan','[x] Done.'))
 		except YAMLFileError, e:
 			print(color('red',e))
 			sys.exit(1)
