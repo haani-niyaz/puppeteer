@@ -4,8 +4,7 @@
 import os
 import errno
 import pwd
-from shutil import copyfile
-
+import subprocess
 
 class AdminTasksError(Exception):
     """An exception that occurs when performing administrative operations"""
