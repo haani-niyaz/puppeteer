@@ -5,12 +5,12 @@ from colourize import color
 import sys
 
 
-class BootstrapControllerError(Exception):
+class BootstrapError(Exception):
   """An exception that occurs when Bootstrapping a repo"""
   pass
 
 
-class BootstrapController():
+class Bootstrap():
   """Control repo initialization"""
 
   def __init__(self, data):
