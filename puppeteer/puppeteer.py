@@ -41,8 +41,8 @@ def run():
   # Setup user config in ansible.cfg
   elif cli.sub_cmd == 'setup':
     print(cli.env)
-      ansible_cfg = AnsibleConfig(user_config, cli.env)
-      ansible_cfg.create_ini()
+    ansible_cfg = AnsibleConfig(user_config, cli.env)
+    ansible_cfg.create_ini()
 
   # Tag a repo with a new version
   elif cli.sub_cmd == 'tag':
