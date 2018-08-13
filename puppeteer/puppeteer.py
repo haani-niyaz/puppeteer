@@ -40,7 +40,7 @@ def run():
 
   # Setup user config in ansible.cfg
   elif cli.sub_cmd == 'setup':
-    print(cli.env)
+
     ansible_cfg = AnsibleConfig(user_config, cli.env)
     ansible_cfg.create_ini()
 
