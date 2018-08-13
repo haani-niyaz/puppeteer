@@ -3,4 +3,4 @@ import puppeteer
 
 
 def main():
-  puppeteer.main()
+  puppeteer.run()
