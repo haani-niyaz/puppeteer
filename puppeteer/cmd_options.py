@@ -22,7 +22,7 @@ def main(envs):
 
   # Apply user config to ansible.cfg
   parser_setup = subparsers.add_parser(
-      'setup', help='setup ansible.cfg configuration')
+      'gen', help='generate ansible.cfg file')
   parser_setup.add_argument('env', choices=envs, help='target environment')
 
   return parser.parse_args()
