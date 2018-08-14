@@ -11,6 +11,8 @@ from time import sleep
 
 USER_CONFIG = '.puppeteer.yml'
 REQUIREMENTS = 'requirements.yml'
+CROSS = u'\u2717'.encode('utf8')
+TICK = u'\u2713'.encode('utf8')
 
 
 def run():
@@ -18,8 +20,9 @@ def run():
   try:
     user_config = YAMLFile(USER_CONFIG).read()
   except YAMLFileError, e:
-    print(color('red', e))
-    print(color('red', ">> File must be created if you are running puppeteer for the first time."))
+    print(color('red', "{0} {1}".format(CROSS, e)))
+    print(color(
+        'pink', 'File must be created if you are running puppeteer for the first time.'))
     sys.exit(1)
 
   cli = cmd_options.main(user_config['environments'])
@@ -29,17 +32,17 @@ def run():
 
     try:
       bootstrap = Bootstrap(user_config)
-      print(color('cyan', '>> Initializing environments..'))
+      print(color('cyan', '+ Initializing environments..'))
       bootstrap.create_layout()
       sleep(0.4)
-      print(color('cyan', '>> Done.'))
+      print(color('cyan', "{0} Done.".format(TICK)))
 
     except BootstrapError, e:
       print(color('red', e))
       sys.exit(1)
 
   # Setup user config in ansible.cfg
-  elif cli.sub_cmd == 'setup':
+  elif cli.sub_cmd == 'gen':
 
     ansible_cfg = AnsibleConfig(user_config, cli.env)
     ansible_cfg.create_ini()
@@ -54,7 +57,8 @@ def run():
 
     except YAMLFileError, e:
       print(color('red', e))
-      print(color('red', ">> Cannot access '{0}' file.".format(req_file)))
+      print(
+          color('red', "{0} Cannot access '{1}' file.".format(CROSS, req_file)))
       sys.exit(1)
 
     try:
@@ -65,15 +69,15 @@ def run():
         print(color('yellow', e.message))
         sys.exit(0)
       else:
-        print(color('red', e.message))
+        print(color('red', "{0} {1}".format(CROSS, e.message)))
         sys.exit(1)
 
     try:
       content.write(updated_repo_list)
-      print(color('cyan', '>> Updating..'))
+      print(color('cyan', '+ Updating..'))
       print(color('green', tag.confirm_tag(cli.role)))
       sleep(0.4)
-      print(color('cyan', '>> Done.'))
+      print(color('cyan', " {0} Done.".format(TICK)))
     except YAMLFileError, e:
       print(color('red', e))
       sys.exit(1)
