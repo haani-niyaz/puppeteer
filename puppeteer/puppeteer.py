@@ -1,8 +1,8 @@
 """Application behaviour"""
 
 import sys
-from config import YAMLFile, YAMLFileError
-import cmd_options
+from fileops import YAMLFile, YAMLFileError
+import cmdopts
 from controllers.bootstrap import Bootstrap, BootstrapError
 from controllers.inigen import AnsibleConfig, AnsibleConfigError
 from controllers.tag import Tag, TagError
@@ -25,7 +25,7 @@ def run():
         'pink', 'File must be created if you are running puppeteer for the first time.'))
     sys.exit(1)
 
-  cli = cmd_options.main(user_config['environments'])
+  cli = cmdopts.main(user_config['environments'])
 
   # Initialize repository
   if cli.sub_cmd == 'new':
