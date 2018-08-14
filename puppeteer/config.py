@@ -19,7 +19,7 @@ class YAMLFile():
 
     if not os.path.exists(self.infile):
       raise YAMLFileError(
-          ">> User config file {0} does not exist in current directory.".format(self.infile))
+          "User config file {0} does not exist in current directory.".format(self.infile))
 
   def read(self):
 
