@@ -25,4 +25,4 @@ def main(envs):
       'gen', help='generate ansible.cfg file')
   parser_setup.add_argument('env', choices=envs, help='target environment')
 
-  return parser.parse_args()
+  return parser

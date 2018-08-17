@@ -25,7 +25,8 @@ def run():
         'pink', 'File must be created if you are running puppeteer for the first time.'))
     sys.exit(1)
 
-  cli = cmdopts.main(user_config['environments'])
+  parser = cmdopts.main(user_config['environments'])
+  cli = parser.parse_args()
 
   # Initialize repository
   if cli.sub_cmd == 'new':
