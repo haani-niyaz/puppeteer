@@ -5,7 +5,7 @@ from fileops import YAMLFile, YAMLFileError
 import cmdopts
 from controllers.bootstrap import Bootstrap, BootstrapError
 from controllers.inigen import AnsibleConfig, AnsibleConfigError
-from controllers.tag import Tag, TagError
+from controllers.role import Role, RoleError
 from colourize import color
 from time import sleep
 
@@ -48,40 +48,47 @@ def run():
     ansible_cfg = AnsibleConfig(user_config, cli.env)
     ansible_cfg.create_ini()
 
-  # Tag a repo with a new version
-  elif cli.sub_cmd == 'tag':
+  # Repo operations
+  elif cli.sub_cmd == 'role':
 
-    try:
-      req_file = "environments/{0}/{1}".format(cli.env, REQUIREMENTS)
-      content = YAMLFile(req_file)
-      repo_list = content.read()
+    if cli.tag:
 
-    except YAMLFileError, e:
-      print(color('red', e))
-      print(
-          color('red', "{0} Cannot access '{1}' file.".format(CROSS, req_file)))
-      sys.exit(1)
+      try:
+        req_file = "environments/{0}/{1}".format(cli.env, REQUIREMENTS)
+        content = YAMLFile(req_file)
+        repo_list = content.read()
 
-    try:
-      tag = Tag(repo_list)
-      updated_repo_list = tag.retag_repo(cli.role, cli.version)
-    except TagError, e:
-      if e.ec == TagError.EXISTS:
-        print(color('yellow', e.message))
-        sys.exit(0)
-      else:
-        print(color('red', "{0} {1}".format(CROSS, e.message)))
+      except YAMLFileError, e:
+        print(color('red', e))
+        print(
+            color('red', "{0} Cannot access '{1}' file.".format(CROSS, req_file)))
         sys.exit(1)
 
-    try:
-      content.write(updated_repo_list)
-      print(color('cyan', '+ Updating..'))
-      print(color('green', tag.confirm_tag(cli.role)))
-      sleep(0.4)
-      print(color('cyan', " {0} Done.".format(TICK)))
-    except YAMLFileError, e:
-      print(color('red', e))
-      sys.exit(1)
+      try:
+        role = Role(repo_list)
+        updated_repo_list = role.tag(cli.name, cli.tag)
+      except RoleError, e:
+        if e.ec == RoleError.EXISTS:
+          print(color('yellow', e.message))
+          sys.exit(0)
+        else:
+          print(color('red', "{0} {1}".format(CROSS, e.message)))
+          sys.exit(1)
+
+      try:
+        content.write(updated_repo_list)
+        print(color('cyan', '+ Updating..'))
+        print(color('green', role.confirm_tag(cli.name)))
+        sleep(0.4)
+        print(color('cyan', " {0} Done.".format(TICK)))
+      except YAMLFileError, e:
+        print(color('red', e))
+        sys.exit(1)
+    else:
+      parser.print_help()
+
+  else:
+    parser.print_help()
 
 
 if __name__ == '__main__':

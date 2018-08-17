@@ -10,9 +10,10 @@ def main(envs):
 
   # Tag operations
   parser_tag = subparsers.add_parser(
-      'tag', help='tag an environment specific repo with a new version')
-  parser_tag.add_argument('version', help='new version')
-  parser_tag.add_argument('-r', '--role', help='role name')
+      'role', help='role specific actions')
+  parser_tag.add_argument('-t', '--tag',
+                          help='tag a role with a version')
+  parser_tag.add_argument('name', help='name of role')
   parser_tag.add_argument('-e', '--env', choices=envs,
                           help='target environment')
 

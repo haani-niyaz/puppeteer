@@ -2,8 +2,8 @@ import os
 import yaml
 
 
-class TagError(Exception):
-  """An exception that occurs when setting the tag in requirements.yml"""
+class RoleError(Exception):
+  """An exception that occurs when action is performed on a role"""
 
   EXISTS = 130
 
@@ -13,30 +13,30 @@ class TagError(Exception):
     # perhaps the value that caused the error?:
     self.ec = exit_code
     # allow users initialize misc. arguments as any other builtin Error
-    super(TagError, self).__init__(message, exit_code, *args)
+    super(RoleError, self).__init__(message, exit_code, *args)
 
 
-class Tag:
+class Role:
 
   def __init__(self, data):
 
     if data is not None:
       self.data = data
     else:
-      raise TagError('Requirements file cannot be empty')
+      raise RoleError('Requirements file cannot be empty')
 
-  def retag_repo(self, name, version):
+  def tag(self, name, version):
 
     for repo in self.data:
       if repo['name'] == name:
         if repo['version'] == version:
-          raise TagError("Version is already set to '%s'" %
-                         str(repo['version']), TagError.EXISTS)
+          raise RoleError("Version is already set to '%s'" %
+                          str(repo['version']), RoleError.EXISTS)
         else:
           repo['version'] = version
           return self.data
 
-    raise TagError("Role '%s' does not exist" % name)
+    raise RoleError("Role '%s' does not exist" % name)
 
   def confirm_tag(self, name):
 
@@ -44,4 +44,4 @@ class Tag:
       if repo['name'] == name:
         return (repo['name'], repo['version'])
 
-    raise TagError('Something went wrong')
+    raise RoleError('Something went wrong')
