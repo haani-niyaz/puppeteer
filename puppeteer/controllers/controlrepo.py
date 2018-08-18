@@ -1,16 +1,16 @@
-"""Orchestrate bootstrap tasks"""
+"""Orchestrate ControlRepo tasks"""
 
 from utils import admin_tasks
 from colourize import color
 import sys
 
 
-class BootstrapError(Exception):
-  """An exception that occurs when Bootstrapping a repo"""
+class ControlRepoError(Exception):
+  """An exception that occurs when ControlRepoping a repo"""
   pass
 
 
-class Bootstrap():
+class ControlRepo():
   """Control repo initialization"""
 
   def __init__(self, data):
@@ -18,7 +18,7 @@ class Bootstrap():
     try:
       self.dirs = data['environments']
     except KeyError, e:
-      raise BootstrapControllerError(
+      raise ControlRepoControllerError(
           'Oops! does your .puppeteer.yml have a list of environments?')
 
     self.env_dir = 'environments'
@@ -26,6 +26,7 @@ class Bootstrap():
     self.host_dir = 'host_vars'
     self.repo_file = 'requirements.yml'
     self.inventory_file = 'inventory.ini'
+    self.repo_runner = 'ansible-galaxy'
 
   def create_layout(self):
     """Create control repo layout"""
@@ -47,5 +48,5 @@ class Bootstrap():
       sys.exit(1)
 
   def summary(self):
-    """Bootstrap summary"""
+    """ControlRepo summary"""
     pass

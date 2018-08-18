@@ -3,7 +3,7 @@
 import sys
 from fileops import YAMLFile, YAMLFileError
 import cmdopts
-from controllers.bootstrap import Bootstrap, BootstrapError
+from controllers.controlrepo import ControlRepo, ControlRepoError
 from controllers.inigen import AnsibleConfig, AnsibleConfigError
 from controllers.role import Role, RoleError
 from colourize import color
@@ -32,13 +32,13 @@ def run():
   if cli.sub_cmd == 'new':
 
     try:
-      bootstrap = Bootstrap(user_config)
+      control_repo = ControlRepo(user_config)
       print(color('cyan', '+ Initializing environments..'))
-      bootstrap.create_layout()
+      control_repo.create_layout()
       sleep(0.4)
       print(color('cyan', "{0} Done.".format(TICK)))
 
-    except BootstrapError, e:
+    except ControlRepoError, e:
       print(color('red', e))
       sys.exit(1)
 
