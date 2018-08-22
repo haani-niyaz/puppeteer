@@ -26,7 +26,6 @@ class ControlRepo():
     self.host_dir = 'host_vars'
     self.repo_file = 'requirements.yml'
     self.inventory_file = 'inventory.ini'
-    self.repo_runner = 'ansible-galaxy'
 
   def create_layout(self):
     """Create control repo layout"""
