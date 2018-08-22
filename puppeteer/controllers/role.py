@@ -21,26 +21,26 @@ class Role:
   def __init__(self, data):
 
     if data is not None:
-      self.data = data
+      self.repos = data
     else:
       raise RoleError('Requirements file cannot be empty')
 
   def tag(self, name, version):
 
-    for repo in self.data:
+    for repo in self.repos:
       if repo['name'] == name:
         if repo['version'] == version:
           raise RoleError("Version is already set to '%s'" %
                           str(repo['version']), RoleError.EXISTS)
         else:
           repo['version'] = version
-          return self.data
+          return self.repos
 
     raise RoleError("Role '%s' does not exist" % name)
 
   def confirm_tag(self, name):
 
-    for repo in self.data:
+    for repo in self.repos:
       if repo['name'] == name:
         return (repo['name'], repo['version'])
 

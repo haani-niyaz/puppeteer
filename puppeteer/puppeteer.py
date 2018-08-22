@@ -56,7 +56,7 @@ def run():
       try:
         req_file = "environments/{0}/{1}".format(cli.env, REQUIREMENTS)
         content = YAMLFile(req_file)
-        repo_list = content.read()
+        repo_data = content.read()
 
       except YAMLFileError, e:
         print(color('red', e))
@@ -65,8 +65,8 @@ def run():
         sys.exit(1)
 
       try:
-        role = Role(repo_list)
-        updated_repo_list = role.tag(cli.name, cli.tag)
+        role = Role(repo_data)
+        updated_repo_data = role.tag(cli.name, cli.tag)
       except RoleError, e:
         if e.ec == RoleError.EXISTS:
           print(color('yellow', e.message))
@@ -76,7 +76,7 @@ def run():
           sys.exit(1)
 
       try:
-        content.write(updated_repo_list)
+        content.write(updated_repo_data)
         print(color('cyan', '+ Updating..'))
         print(color('green', role.confirm_tag(cli.name)))
         sleep(0.4)
