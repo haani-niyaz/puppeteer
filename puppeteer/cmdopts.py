@@ -36,5 +36,7 @@ def main(envs):
       'config',
       help='generate ansible.cfg file')
   parser_gen.add_argument('env', choices=envs, help='target environment')
+  parser_gen.add_argument('-s', '--set', action='store_true', default=False,
+                          help='set environment')
 
   return parser

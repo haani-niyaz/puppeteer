@@ -43,10 +43,14 @@ def run():
       sys.exit(1)
 
   # Setup user config in ansible.cfg
-  elif cli.sub_cmd == 'gen':
+  elif cli.sub_cmd == 'config':
 
-    ansible_cfg = AnsibleConfig(user_config, cli.env)
-    ansible_cfg.create_ini()
+    if cli.set:
+      ansible_cfg = AnsibleConfig(user_config, cli.env)
+      ansible_cfg.create_ini()
+    else:
+      # TO-DO: Show ansible.cfg file
+      print('show config')
 
   # Repo operations
   elif cli.sub_cmd == 'role':
