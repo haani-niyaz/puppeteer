@@ -20,26 +20,27 @@ class AnsibleConfig():
         env, self.ansible_inventory_file)
 
     try:
-      self.config = data['ansible_config']
+      self.user_config = data['ansible_config']
     except KeyError, e:
       # If no user config is provided initialize to empty
-      self.config = None
+      self.user_config = None
 
   def create_ini(self):
     """Generate ansible.cfg file"""
 
     config = ConfigParser.ConfigParser()
     cfg_file = open(self.ansible_cfg_file, 'w')
+    config.add_section('defaults')
 
-    if self.config is not None:
-      config.add_section('defaults')
+    if self.user_config is not None:
+
       # Add path to inventory file in target environment
       config.set('defaults', 'inventory', self.ansible_inventory)
-      if 'roles_path' not in self.config:
+      if 'roles_path' not in self.user_config:
         config.set('defaults', 'roles_path', self.ansible_roles_path)
 
-        for section in self.config.keys():
-          for key, val in self.config[section].iteritems():
+        for section in self.user_config.keys():
+          for key, val in self.user_config[section].iteritems():
 
             if section == 'defaults':
 
@@ -56,9 +57,7 @@ class AnsibleConfig():
 
     # If no user config is provided, set defaults
     else:
-      self._set_defaults(config, cfg_file)
       section = 'defaults'
-      config.add_section(section)
       config.set(section, 'roles_path', self.ansible_roles_path)
       config.set(section, 'inventory', self.ansible_inventory)
       config.write(cfg_file)
