@@ -30,6 +30,7 @@ class AnsibleConfig():
 
     config = ConfigParser.ConfigParser()
     cfg_file = open(self.ansible_cfg_file, 'w')
+
     config.add_section('defaults')
 
     if self.user_config is not None:
