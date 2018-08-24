@@ -32,31 +32,34 @@ class AnsibleConfig():
     cfg_file = open(self.ansible_cfg_file, 'w')
 
     if self.config is not None:
-      for section in self.config.keys():
-        config.add_section(section)
-        for key, val in self.config[section].iteritems():
+      config.add_section('defaults')
+      # Add path to inventory file in target environment
+      config.set('defaults', 'inventory', self.ansible_inventory)
+      if 'roles_path' not in self.config:
+        config.set('defaults', 'roles_path', self.ansible_roles_path)
 
-          # Add the settings to the structure of the file, and write it out
-          config.set(section, key, val)
-          if section == 'defaults':
+        for section in self.config.keys():
+          for key, val in self.config[section].iteritems():
 
-            # Append existing roles path to prescribed roles path.
-            if key == 'roles_path' and (val is not None):
-              val += ":{0}".format(self.ansible_roles_path)
+            if section == 'defaults':
+
+              # Append existing roles path to prescribed roles path.
+              if key == 'roles_path' and (val is not None):
+                val = "{0}:{1}".format(self.ansible_roles_path, val)
+            else:
+              config.add_section(section)
 
             config.set(section, key, val)
-            # Add path to inventory file in target environment
-            config.set(section, 'inventory', self.ansible_inventory)
 
-        # Write entry to file
-        config.write(cfg_file)
+          # Write entry to file
+          config.write(cfg_file)
 
     # If no user config is provided, set defaults
     else:
+      self._set_defaults(config, cfg_file)
       section = 'defaults'
       config.add_section(section)
       config.set(section, 'roles_path', self.ansible_roles_path)
       config.set(section, 'inventory', self.ansible_inventory)
       config.write(cfg_file)
-
     cfg_file.close()
