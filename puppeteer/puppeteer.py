@@ -8,28 +8,34 @@ from fileops import YAMLFile, YAMLFileError
 from controllers.controlrepo import ControlRepo, ControlRepoError
 from controllers.inigen import AnsibleConfig, AnsibleConfigError
 from controllers.role import Role, RoleError
-from constants import USER_CONFIG, REPO_FILE, CROSS, TICK
+from constants import USER_CONFIG_FILE, REPO_FILE, CROSS, TICK
 
 
-def run():
+def main():
 
   try:
-    user_config = YAMLFile(USER_CONFIG).read()
+    user_config = YAMLFile(USER_CONFIG_FILE)
+
+    if user_config.is_empty():
+      print(color(
+          'pink', 'You must atleast provide a list of environments in your {0} file'.format(USER_CONFIG_FILE)))
+      sys.exit(1)
+
+    user_config_data = user_config.read()
   except YAMLFileError, e:
     print(color('red', "{0} {1}".format(CROSS, e)))
     print(color(
-        'pink', 'File must be created if you are running puppeteer for the first time.'))
-
+        'pink', '{0} must be created if you are running puppeteer for the first time.'.format(USER_CONFIG_FILE)))
     sys.exit(1)
 
-  parser = cmdopts.main(user_config['environments'])
+  parser = cmdopts.main(user_config_data['environments'])
   cli = parser.parse_args()
 
   # Initialize repository
   if cli.sub_cmd == 'init':
 
     try:
-      control_repo = ControlRepo(user_config)
+      control_repo = ControlRepo(user_config_data)
       print(color('cyan', '+ Initializing environments..'))
       control_repo.create_layout()
       sleep(0.4)
@@ -41,13 +47,13 @@ def run():
 
   elif cli.sub_cmd == 'show-config':
 
-    ansible_cfg = AnsibleConfig(user_config)
+    ansible_cfg = AnsibleConfig(user_config_data)
     print(ansible_cfg.show())
 
   # Setup user config in ansible.cfg
   elif cli.sub_cmd == 'set-config':
 
-    ansible_cfg = AnsibleConfig(user_config, cli.env)
+    ansible_cfg = AnsibleConfig(user_config_data, cli.env)
     ansible_cfg.create()
 
   # List all roles
@@ -85,3 +91,7 @@ def run():
 
   else:
     parser.print_help()
+
+
+if __name__ == '__main__':
+  main()
