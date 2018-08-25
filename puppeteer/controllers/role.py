@@ -1,5 +1,5 @@
 import os
-import yaml
+from utils.admin_tasks import run_cmd
 
 
 class RoleError(Exception):
@@ -24,6 +24,7 @@ class Role:
       self.repos = data
     else:
       raise RoleError('Requirements file cannot be empty')
+    self.repo_fetcher = 'ansible-galaxy'
 
   def tag(self, name, version):
 
@@ -45,3 +46,6 @@ class Role:
         return (repo['name'], repo['version'])
 
     raise RoleError('Something went wrong')
+
+  def fetch_repos(args, repo_file):
+    run_cmd()
