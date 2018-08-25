@@ -1,18 +1,14 @@
 """Application behaviour"""
 
 import sys
-from fileops import YAMLFile, YAMLFileError
+from time import sleep
 import cmdopts
+from colourize import color
+from fileops import YAMLFile, YAMLFileError
 from controllers.controlrepo import ControlRepo, ControlRepoError
 from controllers.inigen import AnsibleConfig, AnsibleConfigError
 from controllers.role import Role, RoleError
-from colourize import color
-from time import sleep
-
-USER_CONFIG = '.puppeteer.yml'
-REQUIREMENTS = 'requirements.yml'
-CROSS = u'\u2717'.encode('utf8')
-TICK = u'\u2713'.encode('utf8')
+from constants import USER_CONFIG, REPO_FILE, CROSS, TICK
 
 
 def run():
@@ -23,6 +19,7 @@ def run():
     print(color('red', "{0} {1}".format(CROSS, e)))
     print(color(
         'pink', 'File must be created if you are running puppeteer for the first time.'))
+
     sys.exit(1)
 
   parser = cmdopts.main(user_config['environments'])
@@ -55,34 +52,18 @@ def run():
 
   # List all roles
   elif cli.sub_cmd == 'list-roles':
+    role = Role(cli.env)
+    print(color('blue', role.list_roles()))
 
-    try:
-      req_file = "environments/{0}/{1}".format(cli.env, REQUIREMENTS)
-      content = YAMLFile(req_file)
-      print(content.show())
+    # Get all roles
+  elif cli.sub_cmd == 'get-roles':
+    pass
 
-    except YAMLFileError, e:
-      print(color('red', e))
-      print(
-          color('red', "{0} Cannot access '{1}' file.".format(CROSS, req_file)))
-      sys.exit(1)
-
-  # Tag a role
+    # Tag a role
   elif cli.sub_cmd == 'tag-role':
 
     try:
-      req_file = "environments/{0}/{1}".format(cli.env, REQUIREMENTS)
-      content = YAMLFile(req_file)
-      repo_data = content.read()
-
-    except YAMLFileError, e:
-      print(color('red', e))
-      print(
-          color('red', "{0} Cannot access '{1}' file.".format(CROSS, req_file)))
-      sys.exit(1)
-
-    try:
-      role = Role(repo_data)
+      role = Role(cli.env)
       updated_repo_data = role.tag(cli.name, cli.tag)
     except RoleError, e:
       if e.ec == RoleError.EXISTS:
@@ -93,7 +74,7 @@ def run():
         sys.exit(1)
 
     try:
-      content.write(updated_repo_data)
+      role.update_repo_file(updated_repo_data)
       print(color('cyan', '+ Updating..'))
       print(color('green', role.confirm_tag(cli.name)))
       sleep(0.4)
@@ -104,7 +85,3 @@ def run():
 
   else:
     parser.print_help()
-
-
-if __name__ == '__main__':
-  run()
