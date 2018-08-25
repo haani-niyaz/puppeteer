@@ -29,7 +29,7 @@ def run():
   cli = parser.parse_args()
 
   # Initialize repository
-  if cli.sub_cmd == 'new':
+  if cli.sub_cmd == 'init':
 
     try:
       control_repo = ControlRepo(user_config)
