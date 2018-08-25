@@ -41,3 +41,6 @@ class YAMLFile():
 
     with open(self.infile, 'w') as outfile:
       yaml.dump(data, outfile, default_flow_style=False)
+
+  def show(self):
+    return open(self.infile, 'r').read()
