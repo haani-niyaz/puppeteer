@@ -48,3 +48,7 @@ class YAMLFile():
     self._validate_path()
     with open(self.infile, 'r') as stream:
       return stream.read()
+
+  def is_empty(self):
+
+    return True if self.read() is None else False
