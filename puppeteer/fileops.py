@@ -1,4 +1,4 @@
-"""Load and validate YAML files"""
+"""File operations"""
 
 import os
 import yaml
@@ -10,7 +10,7 @@ class YAMLFileError(Exception):
 
 
 class YAMLFile():
-  """Read YAML files"""
+  """Load, validate, write and show YAML files"""
 
   def __init__(self, path):
     self.infile = path
