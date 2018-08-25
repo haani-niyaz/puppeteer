@@ -1,5 +1,6 @@
 """Orchestrate ControlRepo tasks"""
 
+from constants import REPO_FILE
 from utils import admin_tasks
 from colourize import color
 import sys
@@ -24,7 +25,7 @@ class ControlRepo():
     self.env_dir = 'environments'
     self.group_dir = 'group_vars'
     self.host_dir = 'host_vars'
-    self.repo_file = 'requirements.yml'
+    self.repo_file = REPO_FILE
     self.inventory_file = 'inventory.ini'
 
   def create_layout(self):
