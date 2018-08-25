@@ -13,6 +13,7 @@ class YAMLFile():
   """Load, validate, write and show YAML files"""
 
   def __init__(self, path):
+
     self.infile = path
 
   def _validate_path(self):
@@ -43,6 +44,7 @@ class YAMLFile():
       yaml.dump(data, outfile, default_flow_style=False)
 
   def show(self):
+
     self._validate_path()
     with open(self.infile, 'r') as stream:
       return stream.read()
