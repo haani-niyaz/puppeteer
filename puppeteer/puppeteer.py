@@ -42,54 +42,65 @@ def run():
       print(color('red', e))
       sys.exit(1)
 
+  elif cli.sub_cmd == 'show-config':
+
+    ansible_cfg = AnsibleConfig(user_config)
+    print(ansible_cfg.show())
+
   # Setup user config in ansible.cfg
-  elif cli.sub_cmd == 'config':
+  elif cli.sub_cmd == 'set-config':
 
-    if cli.set:
-      ansible_cfg = AnsibleConfig(user_config, cli.env)
-      ansible_cfg.create_ini()
-    else:
-      # TO-DO: Show ansible.cfg file
-      print('show config')
+    ansible_cfg = AnsibleConfig(user_config, cli.env)
+    ansible_cfg.create()
 
-  # Repo operations
-  elif cli.sub_cmd == 'role':
+  # List all roles
+  elif cli.sub_cmd == 'list-roles':
 
-    if cli.tag:
+    try:
+      req_file = "environments/{0}/{1}".format(cli.env, REQUIREMENTS)
+      content = YAMLFile(req_file)
+      print(content.show())
 
-      try:
-        req_file = "environments/{0}/{1}".format(cli.env, REQUIREMENTS)
-        content = YAMLFile(req_file)
-        repo_data = content.read()
+    except YAMLFileError, e:
+      print(color('red', e))
+      print(
+          color('red', "{0} Cannot access '{1}' file.".format(CROSS, req_file)))
+      sys.exit(1)
 
-      except YAMLFileError, e:
-        print(color('red', e))
-        print(
-            color('red', "{0} Cannot access '{1}' file.".format(CROSS, req_file)))
+  # Tag a role
+  elif cli.sub_cmd == 'tag-role':
+
+    try:
+      req_file = "environments/{0}/{1}".format(cli.env, REQUIREMENTS)
+      content = YAMLFile(req_file)
+      repo_data = content.read()
+
+    except YAMLFileError, e:
+      print(color('red', e))
+      print(
+          color('red', "{0} Cannot access '{1}' file.".format(CROSS, req_file)))
+      sys.exit(1)
+
+    try:
+      role = Role(repo_data)
+      updated_repo_data = role.tag(cli.name, cli.tag)
+    except RoleError, e:
+      if e.ec == RoleError.EXISTS:
+        print(color('yellow', e.message))
+        sys.exit(0)
+      else:
+        print(color('red', "{0} {1}".format(CROSS, e.message)))
         sys.exit(1)
 
-      try:
-        role = Role(repo_data)
-        updated_repo_data = role.tag(cli.name, cli.tag)
-      except RoleError, e:
-        if e.ec == RoleError.EXISTS:
-          print(color('yellow', e.message))
-          sys.exit(0)
-        else:
-          print(color('red', "{0} {1}".format(CROSS, e.message)))
-          sys.exit(1)
-
-      try:
-        content.write(updated_repo_data)
-        print(color('cyan', '+ Updating..'))
-        print(color('green', role.confirm_tag(cli.name)))
-        sleep(0.4)
-        print(color('cyan', " {0} Done.".format(TICK)))
-      except YAMLFileError, e:
-        print(color('red', e))
-        sys.exit(1)
-    else:
-      parser.print_help()
+    try:
+      content.write(updated_repo_data)
+      print(color('cyan', '+ Updating..'))
+      print(color('green', role.confirm_tag(cli.name)))
+      sleep(0.4)
+      print(color('cyan', " {0} Done.".format(TICK)))
+    except YAMLFileError, e:
+      print(color('red', e))
+      sys.exit(1)
 
   else:
     parser.print_help()
