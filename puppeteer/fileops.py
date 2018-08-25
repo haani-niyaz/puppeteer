@@ -19,7 +19,7 @@ class YAMLFile():
 
     if not os.path.exists(self.infile):
       raise YAMLFileError(
-          "User config file {0} does not exist in current directory.".format(self.infile))
+          "File {0} does not exist in current directory.".format(self.infile))
 
   def read(self):
 
@@ -43,4 +43,6 @@ class YAMLFile():
       yaml.dump(data, outfile, default_flow_style=False)
 
   def show(self):
-    return open(self.infile, 'r').read()
+    self._validate_path()
+    with open(self.infile, 'r') as stream:
+      return stream.read()
