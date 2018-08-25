@@ -69,5 +69,5 @@ class AnsibleConfig():
   def show(self):
     """Show ansible.cfg file"""
 
-    cfg_file = open(self.ansible_cfg_file, 'r')
-    print(cfg_file.read())
+    with open(self.ansible_cfg_file, 'r') as stream:
+      return stream.read()
