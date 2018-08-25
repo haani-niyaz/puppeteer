@@ -10,8 +10,9 @@ class AnsibleConfigError(Exception):
 
 
 class AnsibleConfig():
+  """ Generate ansible.cfg file"""
 
-  def __init__(self, data, env):
+  def __init__(self, data, env=None):
 
     self.ansible_cfg_file = 'ansible.cfg'
     self.ansible_inventory_file = 'inventory.ini'
@@ -25,18 +26,20 @@ class AnsibleConfig():
       # If no user config is provided initialize to empty
       self.user_config = None
 
-  def create_ini(self):
+  def create(self):
     """Generate ansible.cfg file"""
 
     config = ConfigParser.ConfigParser()
     cfg_file = open(self.ansible_cfg_file, 'w')
 
+    # 'defaults' is always required
     config.add_section('defaults')
 
     if self.user_config is not None:
 
       # Add path to inventory file in target environment
       config.set('defaults', 'inventory', self.ansible_inventory)
+
       if 'roles_path' not in self.user_config:
         config.set('defaults', 'roles_path', self.ansible_roles_path)
 
@@ -58,8 +61,11 @@ class AnsibleConfig():
 
     # If no user config is provided, set defaults
     else:
-      section = 'defaults'
-      config.set(section, 'roles_path', self.ansible_roles_path)
-      config.set(section, 'inventory', self.ansible_inventory)
+      config.set('defaults', 'roles_path', self.ansible_roles_path)
+      config.set('defaults', 'inventory', self.ansible_inventory)
       config.write(cfg_file)
     cfg_file.close()
+
+  def show(self):
+    cfg_file = open(self.ansible_cfg_file, 'r')
+    print(cfg_file.read())

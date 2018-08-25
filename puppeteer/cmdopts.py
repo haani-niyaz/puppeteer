@@ -32,11 +32,14 @@ def main(envs):
       help='generate layout for a new project')
 
   # Apply user config to ansible.cfg
-  parser_gen = subparsers.add_parser(
-      'config',
+  parser_set_config = subparsers.add_parser(
+      'set-config',
       help='generate ansible.cfg file')
-  parser_gen.add_argument('env', choices=envs, help='target environment')
-  parser_gen.add_argument('-s', '--set', action='store_true', default=False,
-                          help='set environment')
+  parser_set_config.add_argument(
+      'env', choices=envs, help='target environment')
+
+  parser_show_config = subparsers.add_parser(
+      'show-config',
+      help='show ansible.cfg file')
 
   return parser
