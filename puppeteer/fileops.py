@@ -9,7 +9,7 @@ class YAMLFileError(Exception):
   pass
 
 
-class YAMLFile():
+class YAMLFile(object):
   """Load, validate, write and show YAML files"""
 
   def __init__(self, path):
@@ -22,6 +22,14 @@ class YAMLFile():
       raise YAMLFileError(
           "'{0}' does not exist in current directory.".format(self.infile))
 
+  def _marker(self, error):
+    if hasattr(error, 'problem_mark'):
+      mark = error.problem_mark
+      return "{0} has errors in position in line {1}, column {2}".format(
+          self.infile, mark.line+1, mark.column+1)
+    else:
+      return "Something went wrong while attempting to read {0}".format(self.infile)
+
   def read(self):
 
     self._validate_path()
@@ -29,16 +37,10 @@ class YAMLFile():
     try:
       with open(self.infile, 'r') as stream:
         return yaml.load(stream)
-    except yaml.YAMLError, e:
-      if hasattr(e, 'problem_mark'):
-        mark = e.problem_mark
-        raise YAMLFileError("{0} has errors in position in line {1}, column {2}".format(
-            self.infile, mark.line+1, mark.column+1))
-      else:
-        raise YAMLFileError(
-            "Something went wrong while attempting to read %s" % self.infile)
     except yaml.scanner.ScannerError, e:
-      raise YAMLFileError(e)
+      raise YAMLFileError(self._marker(e))
+    except yaml.YAMLError, e:
+      raise YAMLFileError(self._marker(e))
 
   def write(self, data):
 
