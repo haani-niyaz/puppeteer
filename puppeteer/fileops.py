@@ -20,7 +20,7 @@ class YAMLFile():
 
     if not os.path.exists(self.infile):
       raise YAMLFileError(
-          "File {0} does not exist in current directory.".format(self.infile))
+          "'{0}' does not exist in current directory.".format(self.infile))
 
   def read(self):
 
@@ -29,14 +29,16 @@ class YAMLFile():
     try:
       with open(self.infile, 'r') as stream:
         return yaml.load(stream)
-    except yaml.YAMLError as e:
+    except yaml.YAMLError, e:
       if hasattr(e, 'problem_mark'):
         mark = e.problem_mark
-        raise YAMLFile("%s has errors in position in line %s, column %s" % (
+        raise YAMLFileError("{0} has errors in position in line {1}, column {2}".format(
             self.infile, mark.line+1, mark.column+1))
       else:
-        raise YAMLFile(
+        raise YAMLFileError(
             "Something went wrong while attempting to read %s" % self.infile)
+    except yaml.scanner.ScannerError, e:
+      raise YAMLFileError(e)
 
   def write(self, data):
 
@@ -51,4 +53,5 @@ class YAMLFile():
 
   def is_empty(self):
 
-    return True if self.read() is None else False
+    # return True if self.read() is None else False
+    self.read()

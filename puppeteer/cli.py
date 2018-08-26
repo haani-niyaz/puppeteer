@@ -13,6 +13,8 @@ from .constants import USER_CONFIG_FILE, REPO_FILE, CROSS, TICK
 
 def main():
 
+  # Parser relies on dynamically loading environments from the user cofig
+  # so let's attempt to get the list of environments first
   try:
     user_config = YAMLFile(USER_CONFIG_FILE)
 
@@ -24,10 +26,9 @@ def main():
     user_config_data = user_config.read()
   except YAMLFileError, e:
     print(color('red', "{0} {1}".format(CROSS, e)))
-    print(color(
-        'pink', '{0} must be created if you are running puppeteer for the first time.'.format(USER_CONFIG_FILE)))
     sys.exit(1)
 
+  # Initialize parser with environments
   parser = cmdopts.main(user_config_data['environments'])
   cli = parser.parse_args()
 
