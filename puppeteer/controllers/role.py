@@ -1,7 +1,7 @@
 import os
 from fileops import YAMLFile, YAMLFileError
 from constants import REPO_FILE, CROSS
-from utils.admin_tasks import run_cmd
+from utils.admin_tasks import run_cmd, AdminTasksError
 
 
 class RoleError(Exception):
@@ -24,12 +24,12 @@ class Role:
 
     # Get repo data from requirements.yml
     try:
-      req_file = "environments/{0}/{1}".format(env, REPO_FILE)
-      self.requirements = YAMLFile(req_file)
+      self.req_file = "environments/{0}/{1}".format(env, REPO_FILE)
+      self.requirements = YAMLFile(self.req_file)
     except YAMLFileError, e:
       print(color('red', e))
       print(
-          color('red', "{0} Cannot access '{1}' file.".format(CROSS, req_file)))
+          color('red', "{0} Cannot access '{1}' file.".format(CROSS, self.req_file)))
       sys.exit(1)
 
     # Set it to an instance var if not empty
@@ -39,6 +39,7 @@ class Role:
     else:
       raise RoleError('Requirements file cannot be empty')
 
+    self.roles_path = "environments/{0}".format(env)
     self.repo_fetcher = 'ansible-galaxy'
 
   def tag(self, name, version):
@@ -68,5 +69,15 @@ class Role:
   def update_repo_file(self, data):
     self.requirements.write(data)
 
-  def fetch_repos(args, repo_file):
-    run_cmd()
+  def fetch(self, option=None):
+
+    default_cmd = "ansible-galaxy install -p {0} -r {1}".format(
+        self.roles_path, self.req_file)
+
+    try:
+      if option:
+        run_cmd("{0} {1}".format(default_cmd, option))
+      else:
+        run_cmd(default_cmd)
+    except AdminTasksError, e:
+      raise RoleError(e)

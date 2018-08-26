@@ -26,11 +26,20 @@ def main(envs):
   parser_tag_role.add_argument('-e', '--env', choices=envs,
                                help='target environment')
 
-  # Apply user config to ansible.cfg
+  # List roles
   parser_list_roles = subparsers.add_parser(
       'list-roles',
       help='list roles in repo file')
   parser_list_roles.add_argument(
+      'env', choices=envs, help='target environment')
+
+  # Fetch roles
+  parser_fetch_roles = subparsers.add_parser(
+      'fetch-roles',
+      help='fetch roles')
+  parser_fetch_roles.add_argument(
+      '-f', '--force', action='store_true', help='force overwrite an existing role')
+  parser_fetch_roles.add_argument(
       'env', choices=envs, help='target environment')
 
   # Setup new project

@@ -4,7 +4,8 @@
 import os
 import errno
 import pwd
-from subprocess import check_output, CalledProcessError, STDOUT
+from subprocess import Popen, PIPE, check_output, CalledProcessError
+import sys
 
 
 class AdminTasksError(Exception):
@@ -37,8 +38,12 @@ def make_file(infile):
 
 def run_cmd(cmd):
 
+  cmd = cmd.split()
   try:
-    check_output(
-        cmd, stderr=STDOUT)
+    check_output(['which', cmd[0]])
   except CalledProcessError, e:
-    print(e.output)
+    raise AdminTasksError("Is '{0}' executable in your path?".format(cmd[0]))
+
+  process = Popen(cmd, stdout=PIPE)
+  for line in process.stdout:
+    sys.stdout.write(line)
