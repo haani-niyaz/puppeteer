@@ -59,11 +59,20 @@ def main():
   # List all roles
   elif cli.sub_cmd == 'list-roles':
     role = Role(cli.env)
-    print(color('blue', role.list_roles()))
+    print(role.list_roles())
 
     # Get all roles
-  elif cli.sub_cmd == 'get-roles':
-    pass
+  elif cli.sub_cmd == 'fetch-roles':
+    roles = Role(cli.env)
+
+    print(color('cyan', '+ Fetching roles...'))
+    try:
+      roles.fetch('--force') if cli.force else roles.fetch()
+    except RoleError, e:
+      print(color('red', "{0} {1}".format(CROSS, e.message)))
+      sys.exit(1)
+
+    print(color('cyan', " {0} Done.".format(TICK)))
 
     # Tag a role
   elif cli.sub_cmd == 'tag-role':
