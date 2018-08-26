@@ -6,9 +6,11 @@ def main(envs):
 
   parser = argparse.ArgumentParser(
       prog='puppeteer',
+      # usage='%(prog)s [sub-command] [options]',
       description='Utility to manage ansible workflow')
 
-  subparsers = parser.add_subparsers(dest='sub_cmd', help='sub-command help')
+  subparsers = parser.add_subparsers(
+      dest='sub_cmd', title='sub commands', help='-h, --help', metavar='[sub-command]')
 
   # Role operations
   parser_tag_role = subparsers.add_parser(
