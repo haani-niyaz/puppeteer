@@ -3,12 +3,12 @@
 import sys
 from time import sleep
 import cmdopts
-from colourize import color
-from fileops import YAMLFile, YAMLFileError
-from controllers.controlrepo import ControlRepo, ControlRepoError
-from controllers.inigen import AnsibleConfig, AnsibleConfigError
-from controllers.role import Role, RoleError
-from constants import USER_CONFIG_FILE, REPO_FILE, CROSS, TICK
+from .colourize import color
+from .fileops import YAMLFile, YAMLFileError
+from .controllers.controlrepo import ControlRepo, ControlRepoError
+from .controllers.inigen import AnsibleConfig, AnsibleConfigError
+from .controllers.role import Role, RoleError
+from .constants import USER_CONFIG_FILE, REPO_FILE, CROSS, TICK
 
 
 def main():
@@ -100,7 +100,3 @@ def main():
 
   else:
     parser.print_help()
-
-
-if __name__ == '__main__':
-  main()

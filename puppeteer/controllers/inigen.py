@@ -1,6 +1,6 @@
 """Ansible Configuration File Manager"""
 
-from config import YAMLFile, YAMLFileError
+from ..fileops import YAMLFile, YAMLFileError
 import ConfigParser
 
 

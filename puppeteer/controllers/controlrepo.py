@@ -1,8 +1,8 @@
 """Orchestrate ControlRepo tasks"""
 
-from constants import REPO_FILE
-from utils import admin_tasks
-from colourize import color
+from ..constants import REPO_FILE
+from ..utils import admin_tasks
+from ..colourize import color
 import sys
 
 

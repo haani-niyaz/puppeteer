@@ -1,7 +1,7 @@
 import os
-from fileops import YAMLFile, YAMLFileError
-from constants import REPO_FILE, CROSS
-from utils.admin_tasks import run_cmd, AdminTasksError
+from ..fileops import YAMLFile, YAMLFileError
+from ..constants import REPO_FILE, CROSS
+from ..utils.admin_tasks import run_cmd, AdminTasksError
 
 
 class RoleError(Exception):
