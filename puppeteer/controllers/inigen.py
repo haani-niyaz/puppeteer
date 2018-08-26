@@ -26,12 +26,6 @@ class AnsibleConfig():
       # If no user config is provided initialize to empty
       self.user_config = None
 
-
-# TO-DO:
-# 1. If user_config is empty, provide defaults [done]
-# 2. If user_config has roles_path, append roles path [done]
-# 3. If inventory path is supplised discard it
-
   def create(self):
     """Generate ansible.cfg file"""
 
@@ -55,13 +49,11 @@ class AnsibleConfig():
               val = "{0}:{1}".format(self.ansible_roles_path, val)
 
           config.set(section, key, val)
-
     else:
       config.add_section('defaults')
       config.set('defaults', 'inventory', self.ansible_inventory)
       config.set('defaults', 'roles_path', self.ansible_roles_path)
 
-    # Write to file
     config.write(cfg_file)
     cfg_file.close()
 
