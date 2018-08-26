@@ -6,7 +6,7 @@ import cmdopts
 from .colourize import color
 from .fileops import YAMLFile, YAMLFileError
 from .controllers.controlrepo import ControlRepo, ControlRepoError
-from .controllers.inigen import AnsibleConfig, AnsibleConfigError
+from .controllers.inigen import AnsibleConfig
 from .controllers.role import Role, RoleError
 from .constants import USER_CONFIG_FILE, REPO_FILE, CROSS, TICK
 
