@@ -26,44 +26,38 @@ class AnsibleConfig():
       # If no user config is provided initialize to empty
       self.user_config = None
 
+
+# TO-DO:
+# 1. If user_config is empty, provide defaults
+# 2. If user_config has roles_path, append roles path [done]
+# 3. If inventory path is supplised discard it
+
   def create(self):
     """Generate ansible.cfg file"""
 
     config = ConfigParser.ConfigParser()
     cfg_file = open(self.ansible_cfg_file, 'w')
 
-    # 'defaults' is always required
-    config.add_section('defaults')
+    for section in self.user_config.keys():
 
-    if self.user_config is not None:
+      config.add_section(section)
 
-      # Add path to inventory file in target environment
-      config.set('defaults', 'inventory', self.ansible_inventory)
+      for key, val in self.user_config[section].iteritems():
 
-      if 'roles_path' not in self.user_config:
-        config.set('defaults', 'roles_path', self.ansible_roles_path)
+        if section == 'defaults':
 
-        for section in self.user_config.keys():
-          for key, val in self.user_config[section].iteritems():
+          # Add path to inventory file in target environment
+          config.set(section, 'inventory', self.ansible_inventory)
 
-            if section == 'defaults':
+          # Append existing roles path to prescribed roles path.
+          if key == 'roles_path' and (val is not None):
+            val = "{0}:{1}".format(self.ansible_roles_path, val)
 
-              # Append existing roles path to prescribed roles path.
-              if key == 'roles_path' and (val is not None):
-                val = "{0}:{1}".format(self.ansible_roles_path, val)
-            else:
-              config.add_section(section)
+        config.set(section, key, val)
 
-            config.set(section, key, val)
+    # Write to file
+    config.write(cfg_file)
 
-          # Write entry to file
-          config.write(cfg_file)
-
-    # If no user config is provided, set defaults
-    else:
-      config.set('defaults', 'roles_path', self.ansible_roles_path)
-      config.set('defaults', 'inventory', self.ansible_inventory)
-      config.write(cfg_file)
     cfg_file.close()
 
   def show(self):
