@@ -39,7 +39,7 @@ class Role:
     else:
       raise RoleError('Requirements file cannot be empty')
 
-    self.roles_path = "environments/{0}".format(env)
+    self.roles_path = "environments/{0}/roles".format(env)
     self.repo_fetcher = 'ansible-galaxy'
 
   def tag(self, name, version):
