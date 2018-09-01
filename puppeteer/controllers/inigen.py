@@ -12,7 +12,7 @@ class AnsibleConfigError(Exception):
 class AnsibleConfig():
   """ Generate ansible.cfg file"""
 
-  def __init__(self, data, env=None):
+  def __init__(self, config, env=None):
 
     self.ansible_cfg_file = 'ansible.cfg'
     self.ansible_inventory_file = 'inventory.ini'
@@ -20,10 +20,10 @@ class AnsibleConfig():
     self.ansible_inventory = "environments/{0}/{1}".format(
         env, self.ansible_inventory_file)
 
-    try:
-      self.user_config = data['ansible_config']
-    except KeyError, e:
-      # If no user config is provided initialize to empty
+    if config:
+      self.user_config = config
+    else:
+      # If no user config is provided set to default
       self.user_config = None
 
   def create(self):
