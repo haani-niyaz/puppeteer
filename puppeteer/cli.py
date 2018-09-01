@@ -20,7 +20,8 @@ def main():
 
     if user_config.is_empty():
       print(color(
-          'pink', 'You must atleast provide a list of environments in your {0} file'.format(USER_CONFIG_FILE)))
+          'pink', 'You must atleast provide a list of environments in your {0} file'
+          .format(USER_CONFIG_FILE)))
       sys.exit(1)
 
     user_config_data = user_config.read()
