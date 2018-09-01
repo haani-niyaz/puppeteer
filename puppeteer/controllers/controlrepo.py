@@ -20,7 +20,7 @@ class ControlRepo():
       self.dirs = data['environments']
     except KeyError, e:
       raise ControlRepoError(
-          'Oops! does your .puppeteer.yml have a list of environments?')
+          'Your .puppeteer.yml file cannot be empty and must have a list of environments.')
 
     self.env_dir = 'environments'
     self.group_dir = 'group_vars'

@@ -17,14 +17,15 @@ def main():
   # so let's attempt to get the list of environments first
   try:
     user_config = YAMLFile(USER_CONFIG_FILE)
+    user_config_data = user_config.read()
 
-    if user_config.is_empty():
-      print(color(
-          'pink', 'You must atleast provide a list of environments in your {0} file'
-          .format(USER_CONFIG_FILE)))
+    try:
+      # Initialize control repo
+      control_repo = ControlRepo(user_config_data)
+    except ControlRepoError as e:
+      print(color('red', "{0} {1}".format(CROSS, e)))
       sys.exit(1)
 
-    user_config_data = user_config.read()
   except YAMLFileError, e:
     print(color('red', "{0} {1}".format(CROSS, e)))
     sys.exit(1)
@@ -37,7 +38,6 @@ def main():
   if cli.sub_cmd == 'init':
 
     try:
-      control_repo = ControlRepo(user_config_data)
       print(color('cyan', '+ Initializing environments..'))
       control_repo.create_layout()
       sleep(0.4)
