@@ -14,13 +14,13 @@ class ControlRepoError(Exception):
 class ControlRepo():
   """Control repo initialization"""
 
-  def __init__(self, data):
+  def __init__(self, envs):
 
-    try:
-      self.dirs = data['environments']
-    except KeyError, e:
+    if envs:
+      self.envs = envs
+    else:
       raise ControlRepoError(
-          'Your .puppeteer.yml file cannot be empty and must have a list of environments.')
+          'Your .puppeteer.yml file must have a list of environments.')
 
     self.env_dir = 'environments'
     self.group_dir = 'group_vars'
@@ -32,7 +32,7 @@ class ControlRepo():
     """Create control repo layout"""
 
     try:
-      for sub_dir in self.dirs:
+      for sub_dir in self.envs:
 
         admin_tasks.make_dirs(
             "{0}/{1}/{2}".format(self.env_dir, sub_dir, self.group_dir))

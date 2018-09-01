@@ -21,7 +21,7 @@ def main():
 
     try:
       # Initialize control repo
-      control_repo = ControlRepo(user_config_data)
+      control_repo = ControlRepo(user_config_data['environments'])
     except ControlRepoError as e:
       print(color('red', "{0} {1}".format(CROSS, e)))
       sys.exit(1)
@@ -31,7 +31,7 @@ def main():
     sys.exit(1)
 
   # Initialize parser with environments
-  parser = cmdopts.main(user_config_data['environments'])
+  parser = cmdopts.main(control_repo.envs)
   cli = parser.parse_args()
 
   # Initialize repository
@@ -49,13 +49,13 @@ def main():
 
   elif cli.sub_cmd == 'show-config':
 
-    ansible_cfg = AnsibleConfig(user_config_data)
+    ansible_cfg = AnsibleConfig(user_config_data['ansible_config'])
     print(ansible_cfg.show())
 
   # Setup user config in ansible.cfg
   elif cli.sub_cmd == 'set-config':
 
-    ansible_cfg = AnsibleConfig(user_config_data, cli.env)
+    ansible_cfg = AnsibleConfig(user_config_data['ansible_config'], cli.env)
     ansible_cfg.create()
 
   # List all roles
