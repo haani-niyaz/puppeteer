@@ -1,6 +1,8 @@
 import os
+import sys
 from ..fileops import YAMLFile, YAMLFileError
 from ..constants import REPO_FILE, CROSS
+from ..colourize import color
 from ..utils.admin_tasks import run_cmd, AdminTasksError
 
 
@@ -23,17 +25,16 @@ class Role:
   def __init__(self, env):
 
     # Get repo data from requirements.yml
+    self.req_file = "environments/{0}/{1}".format(env, REPO_FILE)
+    self.requirements = YAMLFile(self.req_file)
+
     try:
-      self.req_file = "environments/{0}/{1}".format(env, REPO_FILE)
-      self.requirements = YAMLFile(self.req_file)
+      data = self.requirements.read()
     except YAMLFileError, e:
-      print(color('red', e))
       print(
-          color('red', "{0} Cannot access '{1}' file.".format(CROSS, self.req_file)))
+          color('red', "{0} {1}".format(CROSS, e)))
       sys.exit(1)
 
-    # Set it to an instance var if not empty
-    data = self.requirements.read()
     if data is not None:
       self.repos = data
     else:
