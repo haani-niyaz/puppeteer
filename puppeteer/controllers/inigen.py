@@ -1,6 +1,5 @@
 """Ansible Configuration File Manager"""
 
-from ..fileops import YAMLFile, YAMLFileError
 import ConfigParser
 
 
@@ -9,7 +8,7 @@ class AnsibleConfigError(Exception):
   pass
 
 
-class AnsibleConfig():
+class AnsibleConfig(object):
   """ Generate ansible.cfg file"""
 
   def __init__(self, config, env=None):
