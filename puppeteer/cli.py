@@ -55,7 +55,8 @@ def main():
   # Setup user config in ansible.cfg
   elif cli.sub_cmd == 'set-config':
 
-    ansible_cfg = AnsibleConfig(user_config_data['ansible_config'], cli.env)
+    ansible_cfg = AnsibleConfig(
+        user_config_data['ansible_config'], inventory_file=control_repo.inventory_file, env=cli.env)
     ansible_cfg.create()
 
   # List all roles

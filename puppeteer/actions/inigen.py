@@ -11,10 +11,10 @@ class AnsibleConfigError(Exception):
 class AnsibleConfig(object):
   """ Generate ansible.cfg file"""
 
-  def __init__(self, config, env=None):
+  def __init__(self, config, inventory_file='inventory.ini', env=None):
 
     self.ansible_cfg_file = 'ansible.cfg'
-    self.ansible_inventory_file = 'inventory.ini'
+    self.ansible_inventory_file = inventory_file
     self.ansible_roles_path = "environments/{0}/roles".format(env)
     self.ansible_inventory = "environments/{0}/{1}".format(
         env, self.ansible_inventory_file)
