@@ -1,4 +1,3 @@
-import os
 import sys
 from ..fileops import YAMLFile, YAMLFileError
 from ..constants import REPO_FILE, CROSS
@@ -20,7 +19,7 @@ class RoleError(Exception):
     super(RoleError, self).__init__(message, exit_code, *args)
 
 
-class Role:
+class Role(object):
 
   def __init__(self, env):
 
