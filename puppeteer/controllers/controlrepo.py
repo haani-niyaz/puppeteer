@@ -46,7 +46,3 @@ class ControlRepo():
     except admin_tasks.AdminTasksError, e:
       print(e)
       sys.exit(1)
-
-  def summary(self):
-    """ControlRepo summary"""
-    pass
