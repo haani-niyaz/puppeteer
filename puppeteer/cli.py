@@ -8,7 +8,7 @@ from .fileops import YAMLFile, YAMLFileError
 from .actions.controlrepo import ControlRepo, ControlRepoError
 from .actions.inigen import AnsibleConfig
 from .actions.role import Role, RoleError
-from .constants import USER_CONFIG_FILE, CROSS, TICK
+from .constants import USER_CONFIG_FILE, PROJECT_URL, CROSS, TICK
 
 
 def main():
