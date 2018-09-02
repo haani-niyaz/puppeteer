@@ -3,7 +3,6 @@
 import sys
 from ..utils import admin_tasks
 from ..constants import REPO_FILE
-from ..colourize import color
 
 
 class ControlRepoError(Exception):
@@ -11,7 +10,7 @@ class ControlRepoError(Exception):
   pass
 
 
-class ControlRepo():
+class ControlRepo(object):
   """Control repo initialization"""
 
   def __init__(self, envs):
