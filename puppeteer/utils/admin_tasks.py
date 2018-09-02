@@ -14,7 +14,17 @@ class AdminTasksError(Exception):
 
 
 def make_dirs(dirs):
-  """Create directories recursively if it does not exist"""
+  """Create directories recursively if it does not exist
+
+  Args:
+      dirs (str): Path to directory. Sub-directories will be create if it does not exist
+
+  Returns:
+      str: Notice to calling program that directory already exists
+
+  Raises:
+      AdminTasksError: For any errors in the creation process notify calling program
+  """
 
   try:
     os.makedirs(dirs)
@@ -27,7 +37,14 @@ def make_dirs(dirs):
 
 
 def make_file(infile):
-  """Create a file if does not exist"""
+  """Create a file if does not exist
+
+  Args:
+      infile (str): Path to file
+
+  Returns:
+      str: Notice to calling program that file already exists
+  """
 
   if not os.path.exists(infile):
     with open(infile, 'w'):
@@ -37,6 +54,14 @@ def make_file(infile):
 
 
 def run_cmd(cmd):
+  """Run command and print output 
+
+  Args:
+      cmd (str): Unix command string
+
+  Raises:
+      AdminTasksError: Validates if the 'command' to execute exists in the user's path
+  """
 
   cmd = cmd.split()
   try:
@@ -45,8 +70,10 @@ def run_cmd(cmd):
     raise AdminTasksError("Is '{0}' executable in your path?".format(cmd[0]))
 
   process = Popen(cmd, stdout=PIPE, stderr=PIPE)
+  # Wait for child process to terminate before checking ext code
   process.wait()
 
+  # Write to stdout if no failures
   if process.returncode == 0:
     [sys.stdout.write(line) for line in process.stdout]
   else:
