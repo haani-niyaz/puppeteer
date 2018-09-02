@@ -44,6 +44,11 @@ def run_cmd(cmd):
   except CalledProcessError, e:
     raise AdminTasksError("Is '{0}' executable in your path?".format(cmd[0]))
 
-  process = Popen(cmd, stdout=PIPE)
-  for line in process.stdout:
-    sys.stdout.write(line)
+  process = Popen(cmd, stdout=PIPE, stderr=PIPE)
+  process.wait()
+
+  if process.returncode == 0:
+    [sys.stdout.write(line) for line in process.stdout]
+  else:
+    message = ''.join(process.stderr)
+    raise AdminTasksError(message)
