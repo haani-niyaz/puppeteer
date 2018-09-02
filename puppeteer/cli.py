@@ -20,8 +20,13 @@ def main():
     user_config_data = user_config.read()
 
     try:
-      # Initialize control repo
-      control_repo = ControlRepo(user_config_data['control_repo'])
+      # Only initialize control repo if the user config defines 'control_repo' vars
+      if 'control_repo' in user_config_data:
+        control_repo = ControlRepo(user_config_data['control_repo'])
+      else:
+        print(color('red', "{0} {1}".format(
+            CROSS, ".puppeteer.yml is missing control repo vars. Please see setup details at https://github.com/haani-niyaz/puppeteer")))
+        sys.exit(1)
     except ControlRepoError as e:
       print(color('red', "{0} {1}".format(CROSS, e)))
       sys.exit(1)
