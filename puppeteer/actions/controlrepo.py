@@ -2,7 +2,7 @@
 
 import sys
 from ..utils import admin_tasks
-from ..constants import REPO_FILE
+from ..constants import PROJECT_URL, REPO_FILE
 
 
 class ControlRepoError(Exception):
@@ -27,15 +27,14 @@ class ControlRepo(object):
                           2. 'environments' var is empty
                           3. 'environments' var is not a list
     """
+    err_message = ".puppeteer.yml must have a list of environments. Please see setup details at {0}.".format(
+        PROJECT_URL)
     try:
       self.envs = config.get('environments')
       if self.envs is None or type(self.envs) is not list:
-        raise ControlRepoError(
-            '.puppeteer.yml must have a list of environments.')
-
-    except TypeError as e:
-      raise ControlRepoError(
-          '.puppeteer.yml file must have a list of environments.')
+        raise ControlRepoError(err_message)
+    except (TypeError, AttributeError) as e:
+      raise ControlRepoError(err_message)
 
     self.inventory_file = config.get('inventory_file_name', 'inventory.ini')
     self.repo_file = REPO_FILE

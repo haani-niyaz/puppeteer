@@ -24,8 +24,10 @@ def main():
       if 'control_repo' in user_config_data:
         control_repo = ControlRepo(user_config_data['control_repo'])
       else:
+        err_message = ".puppeteer.yml is missing control repo vars. Please see setup details at {0}.".format(
+            PROJECT_URL)
         print(color('red', "{0} {1}".format(
-            CROSS, ".puppeteer.yml is missing control repo vars. Please see setup details at https://github.com/haani-niyaz/puppeteer")))
+            CROSS, err_message)))
         sys.exit(1)
     except ControlRepoError as e:
       print(color('red', "{0} {1}".format(CROSS, e)))
