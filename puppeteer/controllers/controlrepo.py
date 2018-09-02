@@ -13,19 +13,23 @@ class ControlRepoError(Exception):
 class ControlRepo(object):
   """Control repo initialization"""
 
-  def __init__(self, envs):
+  def __init__(self, config):
 
-    if envs:
-      self.envs = envs
-    else:
+    try:
+      self.envs = config.get('environments')
+      if self.envs is None or type(self.envs) is not list:
+        raise ControlRepoError(
+            '.puppeteer.yml must have a list of environments.')
+
+    except TypeError as e:
       raise ControlRepoError(
-          'Your .puppeteer.yml file must have a list of environments.')
+          '.puppeteer.yml file must have a list of environments.')
 
+    self.inventory_file = config.get('inventory_file_name', 'inventory.ini')
+    self.repo_file = REPO_FILE
     self.env_dir = 'environments'
     self.group_dir = 'group_vars'
     self.host_dir = 'host_vars'
-    self.repo_file = REPO_FILE
-    self.inventory_file = 'inventory.ini'
 
   def create_layout(self):
     """Create control repo layout"""

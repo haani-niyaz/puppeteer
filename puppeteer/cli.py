@@ -21,7 +21,7 @@ def main():
 
     try:
       # Initialize control repo
-      control_repo = ControlRepo(user_config_data['environments'])
+      control_repo = ControlRepo(user_config_data['control_repo'])
     except ControlRepoError as e:
       print(color('red', "{0} {1}".format(CROSS, e)))
       sys.exit(1)
