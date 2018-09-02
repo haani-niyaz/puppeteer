@@ -14,7 +14,19 @@ class ControlRepo(object):
   """Control repo initialization"""
 
   def __init__(self, config):
+    """Initialize control repo object
 
+    Args:
+        config (config): Expects an object with the key 'environments' (list) and optionally
+                         'inventory_file_name' (str)
+
+    Raises:
+        ControlRepoError: Raise an exception to the calling program if the following is met:
+                          1. '.puppeteer.yml' does not have var 'environment' of sequence type (list) 
+                             defined 
+                          2. 'environments' var is empty
+                          3. 'environments' var is not a list
+    """
     try:
       self.envs = config.get('environments')
       if self.envs is None or type(self.envs) is not list:
