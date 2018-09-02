@@ -36,7 +36,7 @@ class ControlRepo(object):
     except (TypeError, AttributeError) as e:
       raise ControlRepoError(err_message)
 
-    self.inventory_file = config.get('inventory_file_name', 'inventory.ini')
+    self.inventory_file = config.get('inventory_file', 'inventory.ini')
     self.repo_file = REPO_FILE
     self.env_dir = 'environments'
     self.group_dir = 'group_vars'
