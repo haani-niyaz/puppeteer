@@ -65,6 +65,7 @@ def main():
     ansible_cfg = AnsibleConfig(
         user_config_data['ansible_config'], inventory_file=control_repo.inventory_file, env=cli.env)
     ansible_cfg.create()
+    print(color('cyan', "You are now working on '{0}'".format(cli.env)))
 
   # List all roles
   elif cli.sub_cmd == 'list-roles':
