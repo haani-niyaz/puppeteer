@@ -20,19 +20,19 @@ class ControlRepo(object):
 
     Raises:
         ControlRepoError: Raise an exception to the calling program if the following is met:
-                          1. '.puppeteer.yml' does not have var 'environment' of sequence type (list)
+                          - '.puppeteer.yml' does not have var 'environments' of sequence type (list)
                              defined
-                          2. 'environments' var is empty
-                          3. 'environments' var is not a list
+                          - 'environments' var is empty
+                          - 'environments' var is not a list
     """
-    err_message = ".puppeteer.yml must have a list of environments. Please see setup details at {0}.".format(
+    err_msg = ".puppeteer.yml must have a list of environments. Please see setup details at {0}.".format(
         PROJECT_URL)
     try:
       self.envs = config.get('environments')
       if self.envs is None or not isinstance(self.envs, list):
-        raise ControlRepoError(err_message)
+        raise ControlRepoError(err_msg)
     except (TypeError, AttributeError):
-      raise ControlRepoError(err_message)
+      raise ControlRepoError(err_msg)
 
     self.inventory_file = config.get('inventory_file', 'inventory.ini')
     self.repo_file = REPO_FILE

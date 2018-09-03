@@ -15,19 +15,22 @@ def main():
 
   # Parser relies on dynamically loading environments from the user cofig
   # so let's attempt to get the list of environments first
+
   try:
+    # Read config provided by user in '.puppeteer.yml'
     user_config = YAMLFile(USER_CONFIG_FILE)
     user_config_data = user_config.read()
 
     try:
-      # Only initialize control repo if the user config defines 'control_repo' vars
+      # Only initialize control repo object if the user config defines 'control_repo' var
       if 'control_repo' in user_config_data:
+        # Validate environments list when initializing control repo object
         control_repo = ControlRepo(user_config_data['control_repo'])
       else:
-        err_message = ".puppeteer.yml is missing control repo vars. Please see setup details at {0}.".format(
+        err_msg = ".puppeteer.yml is missing control repo var. Please see setup details at {0}.".format(
             PROJECT_URL)
         print(color('red', "{0} {1}".format(
-            CROSS, err_message)))
+            CROSS, err_msg)))
         sys.exit(1)
     except ControlRepoError as e:
       print(color('red', "{0} {1}".format(CROSS, e)))
@@ -37,9 +40,11 @@ def main():
     print(color('red', "{0} {1}".format(CROSS, e)))
     sys.exit(1)
 
-  # Initialize parser with environments
+  # Now we can initialize the parser with the environments list
   parser = cmdopts.main(control_repo.envs)
   cli = parser.parse_args()
+
+  ### Operations ###
 
   # Initialize repository
   if cli.sub_cmd == 'init':
