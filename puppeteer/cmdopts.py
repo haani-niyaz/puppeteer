@@ -60,4 +60,13 @@ def main(envs):
       'show-config',
       help='show ansible.cfg file')
 
+  # Deploy
+  parser_deploy = subparsers.add_parser(
+      'deploy',
+      help='all in one action to fetch roles and generate ansible.cfg file')
+  parser_deploy.add_argument(
+      'env', choices=envs, help='target environment')
+  parser_deploy.add_argument(
+      '-f', '--force', action='store_true', help='force overwrite an existing role')
+
   return parser

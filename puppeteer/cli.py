@@ -109,5 +109,23 @@ def main():
       print(color('red', e))
       sys.exit(1)
 
+  # Get all roles and setup user config in ansible.cfg
+  elif cli.sub_cmd == 'deploy':
+
+    roles = Role(cli.env)
+
+    print(color('cyan', '+ Fetching roles...'))
+    try:
+      roles.fetch('--force') if cli.force else roles.fetch()
+      print(color('cyan', " {0} Done.".format(TICK)))
+    except RoleError, e:
+      print(color('red', "{0} {1}".format(CROSS, e.message)))
+      sys.exit(1)
+
+    ansible_cfg = AnsibleConfig(
+        user_config_data['ansible_config'], inventory_file=control_repo.inventory_file, env=cli.env)
+    ansible_cfg.create()
+    print(color('cyan', "You are now working on '{0}'".format(cli.env)))
+
   else:
     parser.print_help()
