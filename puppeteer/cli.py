@@ -8,7 +8,7 @@ from .fileops import FileOps, YAMLFile, YAMLFileError
 from .actions.controlrepo import ControlRepo, ControlRepoError
 from .actions.inigen import AnsibleConfig
 from .actions.role import Role, RoleError
-from .constants import USER_CONFIG_FILE, PROJECT_URL, CROSS, TICK
+from .constants import USER_CONFIG_FILE, ANSIBLE_CONFIG_FILE, PROJECT_URL, CROSS, TICK
 
 
 def main():
@@ -54,9 +54,10 @@ def main():
       print(color('red', e))
       sys.exit(1)
 
+  # Show ansible.cfg
   elif cli.sub_cmd == 'show-config':
 
-    ansible_config_file = FileOps('ansible.cfg')
+    ansible_config_file = FileOps(ANSIBLE_CONFIG_FILE)
     print(ansible_config_file.show())
 
   # Setup user config in ansible.cfg

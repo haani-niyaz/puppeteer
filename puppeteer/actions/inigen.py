@@ -1,6 +1,7 @@
 """Ansible Configuration File Manager"""
 
 import ConfigParser
+from ..constants import ANSIBLE_CONFIG_FILE
 
 
 class AnsibleConfigError(Exception):
@@ -19,7 +20,7 @@ class AnsibleConfig(object):
         inventory_file (str, optional): User specified inventory file name
         env (None, optional): Target environment
     """
-    self.ansible_cfg_file = 'ansible.cfg'
+    self.ansible_cfg_file = ANSIBLE_CONFIG_FILE
     self.ansible_inventory_file = inventory_file
     self.ansible_roles_path = "environments/{0}/roles".format(env)
     self.ansible_inventory = "environments/{0}/{1}".format(
