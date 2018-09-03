@@ -1,5 +1,3 @@
-"""Orchestrate ControlRepo tasks"""
-
 import sys
 from ..utils import admin_tasks
 from ..constants import PROJECT_URL, REPO_FILE

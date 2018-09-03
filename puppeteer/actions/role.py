@@ -28,7 +28,7 @@ class Role(object):
         env (str): Target environment of requirements.yml
 
     Raises:
-        RoleError: Notify user if yaml file has errors
+        RoleError: Notify user if requirements.yml file has errors
     """
 
     # Get repo data from requirements.yml

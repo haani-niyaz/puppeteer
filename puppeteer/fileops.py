@@ -1,5 +1,3 @@
-"""File operations"""
-
 import os
 import yaml
 
