@@ -24,11 +24,11 @@ class Role(object):
   def __init__(self, env):
 
     # Get repo data from requirements.yml
-    self.req_file = "environments/{0}/{1}".format(env, REPO_FILE)
-    self.requirements = YAMLFile(self.req_file)
+    self._req_file_path = "environments/{0}/{1}".format(env, REPO_FILE)
+    self._requirements = YAMLFile(self._req_file_path)
 
     try:
-      data = self.requirements.read()
+      data = self._requirements.read()
     except YAMLFileError, e:
       print(
           color('red', "{0} {1}".format(CROSS, e)))
@@ -64,15 +64,15 @@ class Role(object):
     raise RoleError('Something went wrong')
 
   def list_roles(self):
-    return self.requirements.show()
+    return self._requirements.show()
 
   def update_repo_file(self, data):
-    self.requirements.write(data)
+    self._requirements.write(data)
 
   def fetch(self, option=None):
 
     default_cmd = "ansible-galaxy install -p {0} -r {1}".format(
-        self.roles_path, self.req_file)
+        self.roles_path, self._req_file_path)
 
     try:
       if option:

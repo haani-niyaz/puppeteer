@@ -12,7 +12,7 @@ class FileOps(object):
     Args:
         path (str): File path
     """
-    self.infile = path
+    self._infile = path
 
   def _validate_path(self):
     """Validate path to file
@@ -20,9 +20,9 @@ class FileOps(object):
     Raises:
         YAMLFileError: Notify user that the file does not exist
     """
-    if not os.path.exists(self.infile):
+    if not os.path.exists(self._infile):
       raise YAMLFileError(
-          "'{0}' does not exist.".format(self.infile))
+          "'{0}' does not exist.".format(self._infile))
 
   def show(self):
     """Show contents of file
@@ -31,7 +31,7 @@ class FileOps(object):
         str: Returns contents of file
     """
     self._validate_path()
-    with open(self.infile, 'r') as stream:
+    with open(self._infile, 'r') as stream:
       return stream.read()
 
   def is_empty(self):
@@ -67,9 +67,9 @@ class YAMLFile(FileOps):
     if hasattr(error, 'problem_mark'):
       mark = error.problem_mark
       return "{0} has errors in position in line {1}, column {2}".format(
-          self.infile, mark.line+1, mark.column+1)
+          self._infile, mark.line+1, mark.column+1)
     else:
-      return "Something went wrong while attempting to read {0}".format(self.infile)
+      return "Something went wrong while attempting to read {0}".format(self._infile)
 
   def read(self):
     """Read yaml file
@@ -83,7 +83,7 @@ class YAMLFile(FileOps):
     super(YAMLFile, self)._validate_path()
 
     try:
-      with open(self.infile, 'r') as stream:
+      with open(self._infile, 'r') as stream:
         return yaml.load(stream)
     except yaml.scanner.ScannerError, e:
       raise YAMLFileError(self._marker(e))
@@ -96,5 +96,5 @@ class YAMLFile(FileOps):
     Args:
         data (dict): Dictionary 
     """
-    with open(self.infile, 'w') as outfile:
+    with open(self._infile, 'w') as outfile:
       yaml.dump(data, outfile, default_flow_style=False)
