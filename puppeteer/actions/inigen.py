@@ -12,7 +12,13 @@ class AnsibleConfig(object):
   """ Generate ansible.cfg file"""
 
   def __init__(self, config, inventory_file='inventory.ini', env=None):
+    """Initialization for ansible.cfg file
 
+    Args:
+        config (dict): User data
+        inventory_file (str, optional): User specified inventory file name
+        env (None, optional): Target environment
+    """
     self.ansible_cfg_file = 'ansible.cfg'
     self.ansible_inventory_file = inventory_file
     self.ansible_roles_path = "environments/{0}/roles".format(env)
