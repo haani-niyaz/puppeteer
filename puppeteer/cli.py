@@ -75,13 +75,14 @@ def main():
 
   # List all roles
   elif cli.sub_cmd == 'list-roles':
+
     role = Role(cli.env)
     print(role.list_roles())
 
     # Get all roles
   elif cli.sub_cmd == 'fetch-roles':
-    roles = Role(cli.env)
 
+    roles = Role(cli.env)
     print(color('cyan', '+ Fetching roles...'))
     try:
       roles.fetch('--force') if cli.force else roles.fetch()
@@ -118,7 +119,6 @@ def main():
   elif cli.sub_cmd == 'deploy':
 
     roles = Role(cli.env)
-
     print(color('cyan', '+ Fetching roles...'))
     try:
       roles.fetch('--force') if cli.force else roles.fetch()
