@@ -22,6 +22,14 @@ class RoleError(Exception):
 class Role(object):
 
   def __init__(self, env):
+    """Initialize role object
+
+    Args:
+        env (str): Target environment of requirements.yml
+
+    Raises:
+        RoleError: Notify user if yaml file has errors
+    """
 
     # Get repo data from requirements.yml
     self._req_file_path = "environments/{0}/{1}".format(env, REPO_FILE)
@@ -43,7 +51,18 @@ class Role(object):
     self.repo_fetcher = 'ansible-galaxy'
 
   def tag(self, name, version):
+    """Update role tag in requirements.yml
 
+    Args:
+        name (str): Role name
+        version (str): Version to set
+
+    Returns:
+        tuple: Role name and new version in requirements.yml
+
+    Raises:
+        RoleError: Notify user of any errors
+    """
     for repo in self.repos:
       if repo['name'] == name:
         if repo['version'] == version:
