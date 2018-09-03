@@ -4,16 +4,9 @@ import os
 import yaml
 
 
-class YAMLFileError(Exception):
-  """An exception that occurs when a config file fails to load"""
-  pass
-
-
-class YAMLFile(object):
-  """Load, validate, write and show YAML files"""
+class FileOps(object):
 
   def __init__(self, path):
-
     self.infile = path
 
   def _validate_path(self):
@@ -21,6 +14,30 @@ class YAMLFile(object):
     if not os.path.exists(self.infile):
       raise YAMLFileError(
           "'{0}' does not exist in current directory.".format(self.infile))
+
+  def show(self):
+    self._validate_path()
+    with open(self.infile, 'r') as stream:
+      return stream.read()
+
+  def is_empty(self):
+
+    # return True if self.read() is None else False
+    self.read()
+
+
+class YAMLFileError(Exception):
+  """An exception that occurs when a config file fails to load"""
+  pass
+
+
+class YAMLFile(FileOps):
+  """Load, validate, write and show YAML files"""
+
+  def __init__(self, path):
+
+    # self.infile = path
+    super(YAMLFile, self).__init__(path)
 
   def _marker(self, error):
     if hasattr(error, 'problem_mark'):
@@ -32,7 +49,7 @@ class YAMLFile(object):
 
   def read(self):
 
-    self._validate_path()
+    super(YAMLFile, self)._validate_path()
 
     try:
       with open(self.infile, 'r') as stream:
@@ -46,14 +63,3 @@ class YAMLFile(object):
 
     with open(self.infile, 'w') as outfile:
       yaml.dump(data, outfile, default_flow_style=False)
-
-  def show(self):
-
-    self._validate_path()
-    with open(self.infile, 'r') as stream:
-      return stream.read()
-
-  def is_empty(self):
-
-    # return True if self.read() is None else False
-    self.read()

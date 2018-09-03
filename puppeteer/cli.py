@@ -4,7 +4,7 @@ import sys
 from time import sleep
 import cmdopts
 from .colourize import color
-from .fileops import YAMLFile, YAMLFileError
+from .fileops import FileOps, YAMLFile, YAMLFileError
 from .actions.controlrepo import ControlRepo, ControlRepoError
 from .actions.inigen import AnsibleConfig
 from .actions.role import Role, RoleError
@@ -56,8 +56,8 @@ def main():
 
   elif cli.sub_cmd == 'show-config':
 
-    ansible_cfg = AnsibleConfig(user_config_data['ansible_config'])
-    print(ansible_cfg.show())
+    ansible_config_file = FileOps('ansible.cfg')
+    print(ansible_config_file.show())
 
   # Setup user config in ansible.cfg
   elif cli.sub_cmd == 'set-config':
