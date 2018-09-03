@@ -47,7 +47,7 @@ def main(envs):
   # Setup new project
   parser_new = subparsers.add_parser(
       'init',
-      help='generate layout for a new project')
+      help='generate layout for a new project or reinitialize an existing project')
 
   # Apply user config to ansible.cfg
   parser_set_config = subparsers.add_parser(
