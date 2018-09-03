@@ -8,7 +8,7 @@ class FileOps(object):
     """Set path to file
 
     Args:
-        path (str): File path
+        path (str): file path
     """
     self._infile = path
 
@@ -16,7 +16,7 @@ class FileOps(object):
     """Validate path to file
 
     Raises:
-        YAMLFileError: Notify user that the file does not exist
+        YAMLFileError: notify user that the file does not exist
     """
     if not os.path.exists(self._infile):
       raise YAMLFileError(
@@ -26,7 +26,7 @@ class FileOps(object):
     """Show contents of file
 
     Returns:
-        str: Returns contents of file
+        str: returns contents of file
     """
     self._validate_path()
     with open(self._infile, 'r') as stream:
@@ -38,7 +38,7 @@ class FileOps(object):
 
 
 class YAMLFileError(Exception):
-  """An exception that occurs when a config file fails to load"""
+  """An exception that occurs when YAML file cannot load or has errors"""
   pass
 
 
@@ -49,7 +49,7 @@ class YAMLFile(FileOps):
     """Set path to file
 
     Args:
-        path (str): File path
+        path (str): file path
     """
     super(YAMLFile, self).__init__(path)
 
@@ -57,7 +57,7 @@ class YAMLFile(FileOps):
     """Helper to get yaml error positions in file
 
     Args:
-        error (yaml.scanner.ScannerError):  ScannerError object from exception
+        error (yaml.scanner.ScannerError):  scannerError object from exception raised
 
     Returns:
         str: Error message string
@@ -73,10 +73,10 @@ class YAMLFile(FileOps):
     """Read yaml file
 
     Returns:
-        dict: Contents of yaml file as a dictionary
+        dict: contents of yaml file as a dictionary object
 
     Raises:
-        YAMLFileError: Notify user that the file has errors
+        YAMLFileError: notify user that the file has errors
     """
     super(YAMLFile, self)._validate_path()
 
@@ -92,7 +92,7 @@ class YAMLFile(FileOps):
     """Write to yaml file
 
     Args:
-        data (dict): Dictionary 
+        data (dict): dictionary of contents to write to file
     """
     with open(self._infile, 'w') as outfile:
       yaml.dump(data, outfile, default_flow_style=False)

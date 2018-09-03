@@ -16,9 +16,9 @@ class AnsibleConfig(object):
     """Initialization for ansible.cfg file
 
     Args:
-        config (dict): User data
-        inventory_file (str, optional): User specified inventory file name
-        env (None, optional): Target environment
+        config (dict): user data
+        inventory_file (str, optional): user specified inventory file name
+        env (None, optional): target environment
     """
     self.ansible_cfg_file = ANSIBLE_CONFIG_FILE
     self.ansible_inventory_file = inventory_file

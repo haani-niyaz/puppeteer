@@ -16,13 +16,13 @@ def make_dirs(dirs):
   """Create directories recursively if it does not exist
 
   Args:
-      dirs (str): Path to directory. Sub-directories will be create if it does not exist
+      dirs (str): path to directory. sub-directories will be create if it does not exist.
 
   Returns:
-      str: Notice to calling program that directory already exists
+      str: notice to calling program that directory already exists
 
   Raises:
-      AdminTasksError: For any errors in the creation process notify calling program
+      AdminTasksError: for any errors in the creation process notify calling program
   """
 
   try:
@@ -39,10 +39,10 @@ def make_file(infile):
   """Create a file if does not exist
 
   Args:
-      infile (str): Path to file
+      infile (str): path to file
 
   Returns:
-      str: Notice to calling program that file already exists
+      str: notice to calling program that file already exists
   """
 
   if not os.path.exists(infile):
@@ -56,10 +56,10 @@ def run_cmd(cmd):
   """Run command and print output 
 
   Args:
-      cmd (str): Unix command string
+      cmd (str): unix command string
 
   Raises:
-      AdminTasksError: Validates if the 'command' to execute exists in the user's path
+      AdminTasksError: validates if the 'command' to execute exists in the user's path
   """
 
   cmd = cmd.split()

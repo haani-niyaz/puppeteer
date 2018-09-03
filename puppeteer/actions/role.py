@@ -25,10 +25,11 @@ class Role(object):
     """Initialize role object
 
     Args:
-        env (str): Target environment of requirements.yml
+        env (str): target environment of requirements.yml
 
     Raises:
-        RoleError: Notify user if requirements.yml file has errors
+        RoleError: notify user of errors encoutered when reading requirements.yml
+                   file
     """
 
     # Get repo data from requirements.yml
@@ -51,17 +52,18 @@ class Role(object):
     self.repo_fetcher = 'ansible-galaxy'
 
   def tag(self, name, version):
-    """Update role tag in requirements.yml
+    """Update a role's tag in requirements.yml
 
     Args:
-        name (str): Role name
-        version (str): Version to set
+        name (str): role name
+        version (str): version to set
 
     Returns:
-        tuple: Role name and new version in requirements.yml
+        tuple: role name and new version in requirements.yml
 
     Raises:
-        RoleError: Notify user of any errors
+        RoleError: notify user if the version is already set 
+                   or role does not exist in requirements.yml
     """
     for repo in self.repos:
       if repo['name'] == name:
@@ -75,7 +77,17 @@ class Role(object):
     raise RoleError("Role '%s' does not exist" % name)
 
   def confirm_tag(self, name):
+    """Get tag for a role
 
+    Args:
+        name (str): role name
+
+    Returns:
+        tuple: role name and tag
+
+    Raises:
+        RoleError: Description
+    """
     for repo in self.repos:
       if repo['name'] == name:
         return (repo['name'], repo['version'])
@@ -83,13 +95,26 @@ class Role(object):
     raise RoleError('Something went wrong')
 
   def list_roles(self):
+    """Show roles in requirements.yml
+
+    Returns:
+        str: contents of file 
+    """
     return self._requirements.show()
 
   def update_repo_file(self, data):
     self._requirements.write(data)
 
   def fetch(self, option=None):
+    """Get ansible roles in requirements.yml
 
+    Args:
+        option (None, optional): option to force overwrite roles already downloaded
+
+    Raises:
+        RoleError: notify user of any errors encountered when the ansible-galaxy
+                   command is run
+    """
     default_cmd = "ansible-galaxy install -p {0} -r {1}".format(
         self.roles_path, self._req_file_path)
 

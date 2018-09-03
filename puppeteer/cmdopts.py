@@ -6,8 +6,8 @@ def main(envs):
 
   parser = argparse.ArgumentParser(
       prog='puppeteer',
-      # usage='%(prog)s [sub-command] [options]',
-      description='Utility to manage ansible workflow')
+      usage='%(prog)s [sub-command] [options]',
+      description='Utility to manage Ansible workflow')
 
   subparsers = parser.add_subparsers(
       dest='sub_cmd', title='sub commands', help='-h, --help', metavar='[sub-command]')
