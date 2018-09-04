@@ -35,6 +35,7 @@ control_repo:
   # override inventory file name if required. default is 'inventory.ini'
   inventory_file_name: 'inventory'
 
+# Optionally add config to your ansible.cfg file
 ansible_config:
   defaults:
     host_key_checking: False
