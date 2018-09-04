@@ -24,15 +24,16 @@ TBA.
 Add a `.puppeteer.yml` file to your ansible control repo. An example is provided below:
 
 ```
+ # Mandatory to provide environments
 control_repo:
-  # list of environments in 'environments' directory.
+  # List of environments in 'environments' directory.
   # if sub directories exist, seperate them with '/' i.e: 'aws/dev'
   environments:
    - dev
    - test
    - staging
    - prod
-  # override inventory file name if required. default is 'inventory.ini'
+  # Override inventory file name if required. default is 'inventory.ini'
   inventory_file_name: 'inventory'
 
 # Optionally add config to your ansible.cfg file
