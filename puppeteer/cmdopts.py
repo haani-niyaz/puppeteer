@@ -1,13 +1,16 @@
 import argparse
 import textwrap
+from puppeteer import __version__ as VERSION
 
 
 def main(envs):
 
   parser = argparse.ArgumentParser(
       prog='puppeteer',
-      usage='%(prog)s [sub-command] [options]',
       description='Utility to manage Ansible workflow')
+
+  parser.add_argument('-v', '--version', action='version',
+                      version='%(prog)s {version}'.format(version=VERSION))
 
   subparsers = parser.add_subparsers(
       dest='sub_cmd', title='sub commands', help='-h, --help', metavar='[sub-command]')
