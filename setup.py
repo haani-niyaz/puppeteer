@@ -9,6 +9,9 @@ setup(
     version=__version__,
     author='Haani Niyaz',
     author_email='haani.niyaz@gmail.com',
+    url='https://github.com/haani-niyaz/puppeteer',
+    license='MIT',
+    description='An opionated way to manage your Ansible workflow',
     keywords='ansible development productivity workflow',
     packages=find_packages(exclude=['docs', 'tests']),
     entry_points={
