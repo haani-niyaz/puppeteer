@@ -19,5 +19,7 @@ setup(
             'puppeteer=puppeteer:main',
         ],
     },
-
+    install_requires=[
+        "pyyaml >= 3.10",
+    ],
 )
