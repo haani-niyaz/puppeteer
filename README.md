@@ -6,22 +6,34 @@
 
 <sub> A portion of this image was sourced from <a href="https://www.freepik.com/free-photos-vectors/business">Author Dooder - Freepik.com</a></sub>
 
-
-## Motivation
-
-TBA.
-
 ## Installation
 
 `pip install --user git+https://github.com/haani-niyaz/puppeteer.git`
 
+
+## Motivation
+
+Git is a powerful tool but managing environments as 'branches' in my experience can quickly become non trivial. A better way is the [Github git flow](https://guides.github.com/introduction/flow/). Combined with the alternative style of setting up your [repository structure](https://docs.ansible.com/ansible/latest/user_guide/playbooks_best_practices.html#alternative-directory-layout) proivdes a straight forward and simple workflow to manage your Ansible projects.
+
+
+### Benefits
+
+- Less time spent fighting configuration drift between branches
+- Follow a human friendly process instead of relying on git command flows e.g: `git cherry-pick` to bring across specific changes from one branch to another.
+- Master branch is protected from inheriting broken changes; Anything in the `master` branch is deployable.
+- Rolling back is quick and easy; zero code touch since we deploy from our stable `master` branch.
+- Etc.
+
+### Where does `puppeteer` fit in?
+
+`puppeteer` is designed to conform to the above methodology and provides the shortcuts to enable this workflow.
 
 ## Quick Start
 
 
 ### Setup
 
-Add a `.puppeteer.yml` file to your ansible control repo. An example is provided below:
+Add a `.puppeteer.yml` file to your ansible repo. An example is provided below:
 
 ```
  # Mandatory to provide environments
@@ -72,3 +84,5 @@ sub commands:
     deploy       all in one action to fetch roles and generate ansible.cfg
                  file 
 ```
+
+
