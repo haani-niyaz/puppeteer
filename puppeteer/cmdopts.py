@@ -23,7 +23,7 @@ def main(envs):
       description=textwrap.dedent('''example:
 
   # Tag role jenkins in dev environment requirements.yml with version 2.0.0
-  puppeteer role jenkins -e dev -t 2.0.0
+  puppeteer tag-role jenkins -e dev -t 2.0.0
       '''))
   parser_tag_role.add_argument('-t', '--tag',
                                help='tag a role with a version')
