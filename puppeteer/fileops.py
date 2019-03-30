@@ -20,7 +20,7 @@ class FileOps(object):
     """
     if not os.path.exists(self._infile):
       raise YAMLFileError(
-          "'{0}' does not exist.".format(self._infile))
+          "'{0}' does not exist".format(self._infile))
 
   def show(self):
     """Show contents of file

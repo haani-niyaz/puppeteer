@@ -62,8 +62,11 @@ def main():
   # Show ansible.cfg
   elif cli.sub_cmd == 'show-config':
 
-    ansible_config_file = FileOps(ANSIBLE_CONFIG_FILE)
-    print(ansible_config_file.show())
+    try:
+      ansible_config_file = FileOps(ANSIBLE_CONFIG_FILE)
+      print(ansible_config_file.show())
+    except YAMLFileError as e:
+      print(color('red', "{}. Have you run 'puppeteer set-config' yet?".format(e)))
 
   # Setup user config in ansible.cfg
   elif cli.sub_cmd == 'set-config':
