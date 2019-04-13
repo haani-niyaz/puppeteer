@@ -28,7 +28,7 @@ def main(envs):
   parser_tag_role.add_argument('-t', '--tag',
                                help='tag a role with a version')
   parser_tag_role.add_argument('name', help='name of role')
-  parser_tag_role.add_argument('-e', '--env', choices=envs,
+  parser_tag_role.add_argument('-e', '--env', choices=envs+['all'],
                                help='target environment')
 
   # List roles

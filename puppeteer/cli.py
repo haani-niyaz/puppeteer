@@ -11,6 +11,30 @@ from .actions.role import Role, RoleError
 from .constants import USER_CONFIG_FILE, ANSIBLE_CONFIG_FILE, PROJECT_URL, CROSS, TICK
 
 
+def tag_role(name='', tag='', env=''):
+
+  try:
+    role = Role(env)
+    updated_repo_data = role.tag(name, tag)
+  except RoleError, e:
+    if e.ec == RoleError.EXISTS:
+      print(color('yellow', e.message))
+      sys.exit(0)
+    else:
+      print(color('red', "{0} {1}".format(CROSS, e.message)))
+      sys.exit(1)
+
+  try:
+    role.update_repo_file(updated_repo_data)
+    print(color('cyan', '+ Updating {0} environment..'.format(env)))
+    print(color('green', role.confirm_tag(name)))
+    sleep(0.4)
+    print(color('cyan', " {0} Done.".format(TICK)))
+  except YAMLFileError, e:
+    print(color('red', e))
+    sys.exit(1)
+
+
 def main():
 
   # Parser relies on dynamically loading environments from the user cofig
@@ -97,28 +121,11 @@ def main():
     # Tag a role
   elif cli.sub_cmd == 'tag-role':
 
-    try:
-      role = Role(cli.env)
-      updated_repo_data = role.tag(cli.name, cli.tag)
-    except RoleError, e:
-      if e.ec == RoleError.EXISTS:
-        print(color('yellow', e.message))
-        sys.exit(0)
-      else:
-        print(color('red', "{0} {1}".format(CROSS, e.message)))
-        sys.exit(1)
+    if cli.env == 'all':
+      for env in control_repo.envs:
+        tag_role(cli.name, cli.tag, env)
 
-    try:
-      role.update_repo_file(updated_repo_data)
-      print(color('cyan', '+ Updating..'))
-      print(color('green', role.confirm_tag(cli.name)))
-      sleep(0.4)
-      print(color('cyan', " {0} Done.".format(TICK)))
-    except YAMLFileError, e:
-      print(color('red', e))
-      sys.exit(1)
-
-  # Get all roles and setup user config in ansible.cfg
+      # Get all roles and setup user config in ansible.cfg
   elif cli.sub_cmd == 'deploy':
 
     roles = Role(cli.env)
