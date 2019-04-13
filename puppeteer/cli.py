@@ -83,12 +83,12 @@ def main():
     role = Role(cli.env)
     print(role.list_roles())
 
-    # Get all roles
+  # Get all roles
   elif cli.sub_cmd == 'fetch-roles':
 
     execute_fetch_roles(cli.env, cli.force)
 
-    # Tag a role
+  # Tag a role
   elif cli.sub_cmd == 'tag-role':
 
     if cli.env == 'all':
@@ -97,7 +97,7 @@ def main():
     else:
       execute_tag_role(cli.name, cli.tag, cli.env)
 
-    # Get all roles and setup user config in ansible.cfg file
+  # Get all roles and setup user config in ansible.cfg file
   elif cli.sub_cmd == 'deploy':
 
     execute_fetch_roles(cli.env, cli.force)
