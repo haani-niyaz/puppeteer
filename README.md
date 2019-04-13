@@ -74,15 +74,13 @@ optional arguments:
 
 sub commands:
   [sub-command]  -h, --help
-    tag-role     tag a role in repo file
-    list-roles   list roles in repo file
+    tag-role     update version in requirements.yml file
+    list-roles   list all roles requirements.yml file
     fetch-roles  fetch roles
     init         generate layout for a new project or reinitialize an existing
                  project
     set-config   generate ansible.cfg file
     show-config  show ansible.cfg file
     deploy       all in one action to fetch roles and generate ansible.cfg
-                 file 
+                 file
 ```
-
-
