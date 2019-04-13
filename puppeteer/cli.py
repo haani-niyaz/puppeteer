@@ -34,7 +34,6 @@ def execute_tag_role(name='', tag='', env=''):
     role.update_repo_file(updated_repo_data)
     print(color('cyan', '+ Updating {0} environment..'.format(env)))
     print(color('green', role.confirm_tag(name)))
-    sleep(0.4)
     print(color('cyan', " {0} Done.".format(TICK)))
   except YAMLFileError, e:
     print(color('red', e))
