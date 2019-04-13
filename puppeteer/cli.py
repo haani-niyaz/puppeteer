@@ -30,15 +30,15 @@ def execute_tag_role(name='', tag='', env=''):
       print(color('red', "{0} {1}".format(CROSS, e.message)))
       sys.exit(1)
 
-    try:
-      role.update_repo_file(updated_repo_data)
-      print(color('cyan', '+ Updating {0} environment..'.format(env)))
-      print(color('green', role.confirm_tag(name)))
-      sleep(0.4)
-      print(color('cyan', " {0} Done.".format(TICK)))
-    except YAMLFileError, e:
-      print(color('red', e))
-      sys.exit(1)
+  try:
+    role.update_repo_file(updated_repo_data)
+    print(color('cyan', '+ Updating {0} environment..'.format(env)))
+    print(color('green', role.confirm_tag(name)))
+    sleep(0.4)
+    print(color('cyan', " {0} Done.".format(TICK)))
+  except YAMLFileError, e:
+    print(color('red', e))
+    sys.exit(1)
 
 
 def execute_fetch_roles(env, force):
