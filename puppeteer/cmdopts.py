@@ -19,10 +19,9 @@ def main(envs):
   parser_tag_role = subparsers.add_parser(
       'tag-role',
       formatter_class=argparse.RawDescriptionHelpFormatter,
-      help='tag a role in repo file',
+      help="update version in requirements.yml file",
       description=textwrap.dedent('''example:
-
-  # Tag role jenkins in dev environment requirements.yml with version 2.0.0
+  # update role 'jenkins' in requirements.yml with version '2.0.0' for the 'dev' environment
   puppeteer tag-role jenkins -e dev -t 2.0.0
       '''))
   parser_tag_role_required = parser_tag_role.add_argument_group(
@@ -36,7 +35,7 @@ def main(envs):
   # List roles
   parser_list_roles = subparsers.add_parser(
       'list-roles',
-      help='list roles in repo file')
+      help='list all roles requirements.yml file')
   parser_list_roles_required = parser_list_roles.add_argument_group(
       'required arguments')
   parser_list_roles_required.add_argument(
