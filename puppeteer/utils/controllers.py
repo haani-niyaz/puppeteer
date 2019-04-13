@@ -2,14 +2,18 @@ import sys
 from time import sleep
 from ..colourize import color
 from ..fileops import FileOps, YAMLFile, YAMLFileError
-# from ..actions.controlrepo import ControlRepo, ControlRepoError
-# from ..actions.inigen import AnsibleConfig
 from ..actions.role import Role, RoleError
 from ..constants import USER_CONFIG_FILE, ANSIBLE_CONFIG_FILE, PROJECT_URL, CROSS, TICK
 
 
 def execute_tag_role(name='', tag='', env=''):
+    """Control flow to tag a role
 
+    Args:
+        name (str): role name
+        tag (str): new version
+        env (str): target environment
+    """
   try:
     role = Role(env)
     updated_repo_data = role.tag(name, tag)
@@ -33,6 +37,12 @@ def execute_tag_role(name='', tag='', env=''):
 
 
 def execute_fetch_roles(env, force):
+	"""Control flow to fetch roles
+
+    Args:
+        env (str): target environment
+        force (str): option to force download
+    """
   roles = Role(env)
   print(color('cyan', '+ Fetching roles...'))
   try:
