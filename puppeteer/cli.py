@@ -18,7 +18,7 @@ def tag_role(name='', tag='', env=''):
     updated_repo_data = role.tag(name, tag)
   except RoleError, e:
     if e.ec == RoleError.EXISTS:
-      print(color('yellow', e.message))
+      print(color('yellow', e.message + 'in {0}'.format(env)))
       sys.exit(0)
     else:
       print(color('red', "{0} {1}".format(CROSS, e.message)))
@@ -124,6 +124,8 @@ def main():
     if cli.env == 'all':
       for env in control_repo.envs:
         tag_role(cli.name, cli.tag, env)
+    else:
+      tag_role(cli.name, cli.tag, cli.env)
 
       # Get all roles and setup user config in ansible.cfg
   elif cli.sub_cmd == 'deploy':
