@@ -9,7 +9,7 @@ from .actions.controlrepo import ControlRepo, ControlRepoError
 from .actions.inigen import AnsibleConfig
 from .actions.role import Role, RoleError
 from .constants import USER_CONFIG_FILE, ANSIBLE_CONFIG_FILE, PROJECT_URL, CROSS, TICK
-from .utils.controllers import execute_tag_role
+from .utils.controllers import execute_tag_role, execute_fetch_roles
 
 
 def main():
@@ -86,14 +86,7 @@ def main():
     # Get all roles
   elif cli.sub_cmd == 'fetch-roles':
 
-    roles = Role(cli.env)
-    print(color('cyan', '+ Fetching roles...'))
-    try:
-      roles.fetch('--force') if cli.force else roles.fetch()
-      print(color('cyan', " {0} Done.".format(TICK)))
-    except RoleError, e:
-      print(color('red', "{0} {1}".format(CROSS, e.message)))
-      sys.exit(1)
+    execute_fetch_roles(cli.env, cli.force)
 
     # Tag a role
   elif cli.sub_cmd == 'tag-role':
@@ -104,17 +97,10 @@ def main():
     else:
       execute_tag_role(cli.name, cli.tag, cli.env)
 
-      # Get all roles and setup user config in ansible.cfg
+    # Get all roles and setup user config in ansible.cfg file
   elif cli.sub_cmd == 'deploy':
 
-    roles = Role(cli.env)
-    print(color('cyan', '+ Fetching roles...'))
-    try:
-      roles.fetch('--force') if cli.force else roles.fetch()
-      print(color('cyan', " {0} Done.".format(TICK)))
-    except RoleError, e:
-      print(color('red', "{0} {1}".format(CROSS, e.message)))
-      sys.exit(1)
+    execute_fetch_roles(cli.env, cli.force)
 
     ansible_cfg = AnsibleConfig(
         user_config_data['ansible_config'], inventory_file=control_repo.inventory_file, env=cli.env)

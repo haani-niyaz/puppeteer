@@ -30,3 +30,14 @@ def execute_tag_role(name='', tag='', env=''):
   except YAMLFileError, e:
     print(color('red', e))
     sys.exit(1)
+
+
+def execute_fetch_roles(env, force):
+  roles = Role(env)
+  print(color('cyan', '+ Fetching roles...'))
+  try:
+    roles.fetch('--force') if force else roles.fetch()
+    print(color('cyan', " {0} Done.".format(TICK)))
+  except RoleError, e:
+    print(color('red', "{0} {1}".format(CROSS, e.message)))
+    sys.exit(1)
