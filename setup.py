@@ -16,7 +16,7 @@ setup(
     packages=find_packages(exclude=['docs', 'tests']),
     entry_points={
         'console_scripts': [
-            'puppeteer=puppeteer:main',
+            'puppeteer=puppeteer.cli:main',
         ],
     },
     install_requires=[
