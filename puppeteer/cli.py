@@ -11,6 +11,52 @@ from .actions.role import Role, RoleError
 from .constants import USER_CONFIG_FILE, ANSIBLE_CONFIG_FILE, PROJECT_URL, CROSS, TICK
 
 
+def execute_tag_role(name='', tag='', env=''):
+  """Control flow to tag a role
+
+  Args:
+      name (str): role name
+      tag (str): new version
+      env (str): target environment
+  """
+  try:
+    role = Role(env)
+    updated_repo_data = role.tag(name, tag)
+  except RoleError, e:
+    if e.ec == RoleError.EXISTS:
+      print(color('yellow', e.message + 'in {0}'.format(env)))
+      sys.exit(0)
+    else:
+      print(color('red', "{0} {1}".format(CROSS, e.message)))
+      sys.exit(1)
+
+  try:
+    role.update_repo_file(updated_repo_data)
+    print(color('cyan', '+ Updating {0} environment..'.format(env)))
+    print(color('green', role.confirm_tag(name)))
+    print(color('cyan', " {0} Done.".format(TICK)))
+  except YAMLFileError, e:
+    print(color('red', e))
+    sys.exit(1)
+
+
+def execute_fetch_roles(env, force):
+  """Control flow to fetch roles
+
+Args:
+  env (str): target environment
+  force (str): option to force download
+"""
+  roles = Role(env)
+  print(color('cyan', '+ Fetching roles...'))
+  try:
+    roles.fetch('--force') if force else roles.fetch()
+    print(color('cyan', " {0} Done.".format(TICK)))
+  except RoleError, e:
+    print(color('red', "{0} {1}".format(CROSS, e.message)))
+    sys.exit(1)
+
+
 def main():
 
   # Parser relies on dynamically loading environments from the user cofig
@@ -82,53 +128,24 @@ def main():
     role = Role(cli.env)
     print(role.list_roles())
 
-    # Get all roles
+  # Get all roles
   elif cli.sub_cmd == 'fetch-roles':
 
-    roles = Role(cli.env)
-    print(color('cyan', '+ Fetching roles...'))
-    try:
-      roles.fetch('--force') if cli.force else roles.fetch()
-      print(color('cyan', " {0} Done.".format(TICK)))
-    except RoleError, e:
-      print(color('red', "{0} {1}".format(CROSS, e.message)))
-      sys.exit(1)
+    execute_fetch_roles(cli.env, cli.force)
 
-    # Tag a role
+  # Tag a role
   elif cli.sub_cmd == 'tag-role':
 
-    try:
-      role = Role(cli.env)
-      updated_repo_data = role.tag(cli.name, cli.tag)
-    except RoleError, e:
-      if e.ec == RoleError.EXISTS:
-        print(color('yellow', e.message))
-        sys.exit(0)
-      else:
-        print(color('red', "{0} {1}".format(CROSS, e.message)))
-        sys.exit(1)
+    if cli.env == 'all':
+      for env in control_repo.envs:
+        execute_tag_role(cli.name, cli.tag, env)
+    else:
+      execute_tag_role(cli.name, cli.tag, cli.env)
 
-    try:
-      role.update_repo_file(updated_repo_data)
-      print(color('cyan', '+ Updating..'))
-      print(color('green', role.confirm_tag(cli.name)))
-      sleep(0.4)
-      print(color('cyan', " {0} Done.".format(TICK)))
-    except YAMLFileError, e:
-      print(color('red', e))
-      sys.exit(1)
-
-  # Get all roles and setup user config in ansible.cfg
+  # Get all roles and setup user config in ansible.cfg file
   elif cli.sub_cmd == 'deploy':
 
-    roles = Role(cli.env)
-    print(color('cyan', '+ Fetching roles...'))
-    try:
-      roles.fetch('--force') if cli.force else roles.fetch()
-      print(color('cyan', " {0} Done.".format(TICK)))
-    except RoleError, e:
-      print(color('red', "{0} {1}".format(CROSS, e.message)))
-      sys.exit(1)
+    execute_fetch_roles(cli.env, cli.force)
 
     ansible_cfg = AnsibleConfig(
         user_config_data['ansible_config'], inventory_file=control_repo.inventory_file, env=cli.env)
