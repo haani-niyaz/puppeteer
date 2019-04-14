@@ -59,7 +59,9 @@ def main(envs):
   parser_set_config = subparsers.add_parser(
       'set-config',
       help='generate ansible.cfg file')
-  parser_set_config.add_argument(
+  parser_set_config_required = parser_set_config.add_argument_group(
+      'required arguments')
+  parser_set_config_required.add_argument(
       'env', choices=envs, help='target environment')
 
   parser_show_config = subparsers.add_parser(
