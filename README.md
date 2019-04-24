@@ -13,7 +13,7 @@
 
 ## Motivation
 
-Git is a powerful tool but managing environments as 'branches' in my experience can quickly become non trivial. A better way is the [Github git flow](https://guides.github.com/introduction/flow/). Combined with the alternative style of setting up your [repository structure](https://docs.ansible.com/ansible/latest/user_guide/playbooks_best_practices.html#alternative-directory-layout) proivdes a straight forward and simple workflow to manage your Ansible projects.
+Git is a powerful tool but managing environments as 'branches' in my experience can quickly become non trivial. A better way is the [Github git flow](https://guides.github.com/introduction/flow/). Combined with the alternative style of setting up your [repository structure](https://docs.ansible.com/ansible/latest/user_guide/playbooks_best_practices.html#alternative-directory-layout) provides a straight forward and simple workflow to manage your Ansible projects.
 
 
 ### Benefits
