@@ -36,10 +36,10 @@ Git is a powerful tool but managing environments as 'branches' in my experience 
 Add a `.puppeteer.yml` file to your ansible repo. An example is provided below:
 
 ```
- # Mandatory to provide environments
+# Mandatory to provide environments
 control_repo:
   # List of environments in 'environments' directory.
-  # if sub directories exist, seperate them with '/' i.e: 'aws/dev'
+  # If sub directories exist, seperate them with '/' i.e: 'aws/dev'
   environments:
    - dev
    - test
