@@ -32,6 +32,30 @@ def main(envs):
   parser_tag_role_required.add_argument('-e', '--env', choices=envs+['all'],
                                         help='target environment')
 
+  # Develop a role
+  parser_develop_role = subparsers.add_parser(
+      'dev-role',
+      formatter_class=argparse.RawDescriptionHelpFormatter,
+      help='develop and test role locally against a target environment',
+      description=textwrap.dedent('''examples:
+  
+  # initialize skeleton role 'jenkins' in basedir '/var/tmp/role-workspace'
+  puppeteer dev-role -s jenkins -w /var/tmp/roles
+ 
+  # initialize skeleton role 'jenkins' in basedir '/var/tmp/role-workspace'
+  # symlink from 'environments/dev/roles/jenkins' to '/var/tmp/role-workspace'
+  puppeteer dev-role jenkins -w /var/tmp/roles -e dev
+      '''))
+  parser_develop_role.add_argument('name', help='name of role')
+  parser_develop_role.add_argument('-s', '--setup', action='store_true',
+                                   help='only setup role in development workspace')
+  parser_develop_role_required = parser_develop_role.add_argument_group(
+      'required arguments')
+  parser_develop_role_required.add_argument('-w', '--workspace', required=True,
+                                            help='path to workspace')
+  parser_develop_role_required.add_argument('-e', '--env', choices=envs, required=True,
+                                            help='symlink to workspace')
+
   # List roles
   parser_list_roles = subparsers.add_parser(
       'list-roles',
