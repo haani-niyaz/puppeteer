@@ -24,11 +24,11 @@ def main(envs):
   # update role 'jenkins' in requirements.yml with version '2.0.0' for the 'dev' environment
   puppeteer tag-role jenkins -e dev -t 2.0.0
       '''))
+  parser_tag_role.add_argument('name', help='name of role')
   parser_tag_role_required = parser_tag_role.add_argument_group(
       'required arguments')
   parser_tag_role_required.add_argument('-t', '--tag',
                                         help='tag a role with a version')
-  parser_tag_role_required.add_argument('name', help='name of role')
   parser_tag_role_required.add_argument('-e', '--env', choices=envs+['all'],
                                         help='target environment')
 
