@@ -4,6 +4,7 @@ from puppeteer import __version__ as VERSION
 
 
 def main(envs):
+  '''cli options'''
 
   parser = argparse.ArgumentParser(
       prog='puppeteer',
@@ -15,7 +16,7 @@ def main(envs):
   subparsers = parser.add_subparsers(
       dest='sub_cmd', title='sub commands', help='-h, --help', metavar='[sub-command]')
 
-  # Role operations
+  # Tag a role
   parser_tag_role = subparsers.add_parser(
       'tag-role',
       formatter_class=argparse.RawDescriptionHelpFormatter,
