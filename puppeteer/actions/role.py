@@ -32,6 +32,7 @@ class Role(object):
                    file
     """
 
+    self.workspace = "{0}/roles".format(PUPPETEER_WORKSPACE)
     # Get repo data from requirements.yml
     self._req_file_path = "environments/{0}/{1}".format(env, REPO_FILE)
     self._requirements = YAMLFile(self._req_file_path)
