@@ -1,8 +1,8 @@
 import sys
 from ..fileops import YAMLFile, YAMLFileError
-from ..constants import REPO_FILE, CROSS
+from ..constants import REPO_FILE, PUPPETEER_WORKSPACE, CROSS
 from ..colourize import color
-from ..utils.admin_tasks import run_cmd, AdminTasksError
+from ..utils.admin_tasks import run_cmd, AdminTasksError, dir_exists, remove_dir, symlink_exists, symlink, make_dirs
 
 
 class RoleError(Exception):
