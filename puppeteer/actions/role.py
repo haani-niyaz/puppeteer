@@ -171,8 +171,8 @@ class Role(object):
       role_name (str): Name of role
     """
 
-  environment_role_path = "{0}/{1}".format(self.roles_path, role_name)
-  if not symlink_exists(environment_role_path):
-    raise RoleError('Symlink already removed', RoleError.EXISTS)
+    environment_role_path = "{0}/{1}".format(self.roles_path, role_name)
+    if not symlink_exists(environment_role_path):
+      raise RoleError('Symlink already removed', RoleError.EXISTS)
 
-  remove_dir(environment_role_path)
+    remove_dir(environment_role_path)
