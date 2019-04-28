@@ -21,7 +21,7 @@ def make_dirs(dirs):
       os.makedirs(dirs)
     except OSError as e:
       raise AdminTasksError(
-          "Directory '{0}' failed with error {1}".format(dirs, e))
+          "Directory '{0}' failed with error '{1}'".format(dirs, e))
 
 
 def dir_exists(path):
