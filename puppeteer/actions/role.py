@@ -134,3 +134,33 @@ class Role(object):
       make_dirs(self.workspace)
     except AdminTasksError as e:
       raise RoleError(e)
+
+
+def symlink_local_role(self, role_name, workspace=None):
+  """Symlink environments/{env}/roles/{role_name} to workspace {basedir}/{role_name}
+
+  Args:
+    role_name (str): Name of role
+    workspace (str): Base directory for local role 
+  """
+
+  if not workspace:
+    self._create_workspace()
+  else:
+    self.workspace = workspace
+
+  local_role_path = "{0}/{1}".format(self.workspace, role_name)
+  environment_role_path = "{0}/{1}".format(self.roles_path, role_name)
+
+  if dir_exists(local_role_path):
+    # Remove environments/{env}/roles/{role_name} dir
+    try:
+      remove_dir(environment_role_path)
+    except AdminTasksError as e:
+      raise RoleError(e)
+
+    # Symlink environments/{env}/roles/{role_name} to workspace {basedir}/{role_name}
+    symlink(local_role_path, environment_role_path)
+  else:
+    raise RoleError(
+        "Development role '{0}' does not exist".format(local_role_path))
