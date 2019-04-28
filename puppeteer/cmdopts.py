@@ -38,8 +38,7 @@ def main(envs):
       'dev-role',
       formatter_class=argparse.RawDescriptionHelpFormatter,
       help='develop and test role locally against a target environment',
-      description=textwrap.dedent('''examples:
-        
+      description=textwrap.dedent('''examples:        
   # symlink from 'environments/dev/roles/jenkins' to default workspace '.puppeteer/roles/jenkins'
   puppeteer dev-role jenkins -e dev
 
