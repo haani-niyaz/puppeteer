@@ -44,10 +44,10 @@ def main(envs):
   puppeteer dev-role jenkins -w /var/tmp/roles -e dev
       '''))
   parser_develop_role.add_argument('name', help='name of role')
+  parser_develop_role.add_argument('-w', '--workspace',
+                                   help='override default workspace ~/.puppeteer/roles')
   parser_develop_role_required = parser_develop_role.add_argument_group(
       'required arguments')
-  parser_develop_role_required.add_argument('-w', '--workspace', required=True,
-                                            help='path to workspace')
   parser_develop_role_required.add_argument('-e', '--env', choices=envs, required=True,
                                             help='symlink to workspace')
 
