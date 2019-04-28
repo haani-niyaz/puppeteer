@@ -24,7 +24,7 @@ def execute_tag_role(name='', tag='', env=''):
     updated_repo_data = role.tag(name, tag)
   except RoleError, e:
     if e.ec == RoleError.EXISTS:
-      print(color('yellow', e.message + 'in {0}'.format(env)))
+      print(color('yellow', e.message + ' in {0}'.format(env)))
       sys.exit(0)
     else:
       print(color('red', "{0} {1}".format(CROSS, e.message)))
