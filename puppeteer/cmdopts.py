@@ -39,13 +39,22 @@ def main(envs):
       formatter_class=argparse.RawDescriptionHelpFormatter,
       help='develop and test role locally against a target environment',
       description=textwrap.dedent('''examples:
-  
-  # symlink from 'environments/dev/roles/jenkins' to '/var/tmp/role-workspace'
+        
+  # symlink from 'environments/dev/roles/jenkins' to default workspace '.puppeteer/roles/jenkins'
+  puppeteer dev-role jenkins -e dev
+
+  # symlink from 'environments/dev/roles/jenkins' to custom workspace '/var/tmp/role/jenkins'
   puppeteer dev-role jenkins -w /var/tmp/roles -e dev
+
+  # remove symlink 
+  puppeteer dev-role jenkins -e dev
+
       '''))
   parser_develop_role.add_argument('name', help='name of role')
   parser_develop_role.add_argument('-w', '--workspace',
                                    help='override default workspace ~/.puppeteer/roles')
+  parser_develop_role.add_argument('-c', '--clean', action='store_true',
+                                   help='remove symlink to role in workspace')
   parser_develop_role_required = parser_develop_role.add_argument_group(
       'required arguments')
   parser_develop_role_required.add_argument('-e', '--env', choices=envs, required=True,
