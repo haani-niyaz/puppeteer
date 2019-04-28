@@ -152,5 +152,31 @@ def main():
     ansible_cfg.create()
     print(color('cyan', "You are now working on '{0}'".format(cli.env)))
 
+  elif cli.sub_cmd == 'dev-role':
+
+    role = Role(cli.env)
+
+    if cli.clean:
+      try:
+        role.unsymlink_local_role(cli.name)
+        print(
+            color('cyan', "{0} Remove symlink 'environments/{1}/roles/{2}' to workspace '{3}'".
+                  format(TICK, cli.env, cli.name, role.workspace)))
+      except RoleError as e:
+        if e.ec == RoleError.EXISTS:
+          print(color('yellow', e.message))
+          sys.exit(0)
+        print(color('red', "{0} {1}".format(CROSS, e.message)))
+        sys.exit(1)
+    else:
+      try:
+        role.symlink_local_role(cli.name, cli.workspace)
+        print(
+            color('cyan', "{0} Created symlink 'environments/{1}/roles/{2}' to workspace '{3}'".
+                  format(TICK, cli.env, cli.name, role.workspace)))
+      except RoleError as e:
+        print(color('red', "{0} {1}".format(CROSS, e.message)))
+        sys.exit(1)
+
   else:
     parser.print_help()
