@@ -165,11 +165,11 @@ class Role(object):
           "Development role '{0}' does not exist".format(local_role_path))
 
   def unsymlink_local_role(self, role_name):
-  """Remove symlink environments/{env}/roles/{role_name} to workspace {basedir}/{role_name}
+    """Remove symlink environments/{env}/roles/{role_name} to workspace {basedir}/{role_name}
 
-  Args:
-    role_name (str): Name of role
-  """
+    Args:
+      role_name (str): Name of role
+    """
 
   environment_role_path = "{0}/{1}".format(self.roles_path, role_name)
   if not symlink_exists(environment_role_path):
