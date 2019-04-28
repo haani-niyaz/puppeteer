@@ -63,7 +63,7 @@ class Role(object):
         tuple: role name and new version in requirements.yml
 
     Raises:
-        RoleError: notify user if the version is already set 
+        RoleError: notify user if the version is already set
                    or role does not exist in requirements.yml
     """
     for repo in self.repos:
@@ -99,7 +99,7 @@ class Role(object):
     """Show roles in requirements.yml
 
     Returns:
-        str: contents of file 
+        str: contents of file
     """
     return self._requirements.show()
 
@@ -125,4 +125,12 @@ class Role(object):
       else:
         run_cmd(default_cmd)
     except AdminTasksError, e:
+      raise RoleError(e)
+
+  def _create_workspace(self):
+    """Create default workspace"""
+
+    try:
+      make_dirs(self.workspace)
+    except AdminTasksError as e:
       raise RoleError(e)
