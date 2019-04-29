@@ -43,10 +43,10 @@ def main(envs):
   puppeteer dev-role jenkins -e dev
 
   # symlink from 'environments/dev/roles/jenkins' to custom workspace '/var/tmp/role/jenkins'
-  puppeteer dev-role jenkins -w /var/tmp/roles -e dev
+  puppeteer dev-role jenkins --workspace /var/tmp/roles -e dev
 
   # remove symlink 
-  puppeteer dev-role jenkins -e dev
+  puppeteer dev-role jenkins -e dev --clean
 
       '''))
   parser_develop_role.add_argument('name', help='name of role')
