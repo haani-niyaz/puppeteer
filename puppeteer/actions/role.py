@@ -40,9 +40,7 @@ class Role(object):
     try:
       data = self._requirements.read()
     except YAMLFileError, e:
-      print(
-          color('red', "{0} {1}".format(CROSS, e)))
-      sys.exit(1)
+      raise RoleError(e)
 
     if data is not None:
       self.repos = data
