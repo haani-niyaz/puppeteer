@@ -154,7 +154,11 @@ def main():
 
   elif cli.sub_cmd == 'dev-role':
 
-    role = Role(cli.env)
+    try:
+      role = Role(cli.env)
+    except RoleError as e:
+      print(color('red', "{0} {1}".format(CROSS, e.message)))
+      sys.exit(1)
 
     if cli.clean:
       try:
