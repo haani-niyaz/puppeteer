@@ -125,8 +125,12 @@ def main():
   # List all roles
   elif cli.sub_cmd == 'list-roles':
 
-    role = Role(cli.env)
-    print(role.list_roles())
+    try:
+      role = Role(cli.env)
+      print(role.list_roles())
+    except RoleError as e:
+      print(color('red', "{0} {1}".format(CROSS, e.message)))
+      sys.exit(1)
 
   # Get all roles
   elif cli.sub_cmd == 'fetch-roles':

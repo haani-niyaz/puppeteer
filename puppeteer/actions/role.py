@@ -45,7 +45,7 @@ class Role(object):
     if data is not None:
       self.repos = data
     else:
-      raise RoleError('Requirements file cannot be empty')
+      raise RoleError("'{}' file is empty".format(self._req_file_path))
 
     self.roles_path = "environments/{0}/roles".format(env)
     self.repo_fetcher = 'ansible-galaxy'
