@@ -5,6 +5,7 @@ import errno
 import pwd
 from subprocess import Popen, PIPE, check_output, CalledProcessError
 import sys
+import shutil
 
 
 class AdminTasksError(Exception):
@@ -13,26 +14,59 @@ class AdminTasksError(Exception):
 
 
 def make_dirs(dirs):
-  """Create directories recursively if it does not exist
+  """Create directories recursively"""
+
+  if not dir_exists(dirs):
+    try:
+      os.makedirs(dirs)
+    except OSError as e:
+      raise AdminTasksError(
+          "Directory '{0}' failed with error '{1}'".format(dirs, e))
+
+
+def dir_exists(path):
+  """Check the presence of a directory
 
   Args:
-      dirs (str): path to directory. sub-directories will be create if it does not exist.
+    path (str): path to dir
 
   Returns:
-      str: notice to calling program that directory already exists
+    boolean
+  """
+  return os.path.isdir(path)
 
-  Raises:
-      AdminTasksError: for any errors in the creation process notify calling program
+
+def symlink_exists(path):
+  """Check the presence of a symlink
+
+  Args:
+    path (str): path to dir
+
+  Returns:
+    boolean
   """
 
-  try:
-    os.makedirs(dirs)
-  except OSError, e:
-    if e.errno == errno.EEXIST:
-      return("'{0}' directory already exists".format(dirs))
-    else:
+  return os.path.islink(path)
+
+
+def remove_dir(path):
+  """Remove directory in a given path"""
+
+  if os.path.islink(path):
+    os.unlink(path)
+
+  if dir_exists(path):
+    try:
+      shutil.rmtree(path)
+    except OSError as e:
       raise AdminTasksError(
-          "Backup directory creation failed with error {0}".format(str(e)))
+          "Deleting {0} failed with error '{1}'".format(e.filename, e.strerror))
+
+
+def symlink(src, link_name):
+  """Create symlink"""
+
+  os.symlink(src, link_name)
 
 
 def make_file(infile):
@@ -53,7 +87,7 @@ def make_file(infile):
 
 
 def run_cmd(cmd):
-  """Run command and print output 
+  """Run command and print output
 
   Args:
       cmd (str): unix command string

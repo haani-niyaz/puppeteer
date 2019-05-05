@@ -1,3 +1,6 @@
+import os
+
+PUPPETEER_WORKSPACE = "{0}/.puppeteer".format(os.path.expanduser('~'))
 USER_CONFIG_FILE = '.puppeteer.yml'
 REPO_FILE = 'requirements.yml'
 ANSIBLE_CONFIG_FILE = 'ansible.cfg'

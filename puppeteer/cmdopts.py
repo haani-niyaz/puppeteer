@@ -4,6 +4,7 @@ from puppeteer import __version__ as VERSION
 
 
 def main(envs):
+  '''cli options'''
 
   parser = argparse.ArgumentParser(
       prog='puppeteer',
@@ -15,14 +16,20 @@ def main(envs):
   subparsers = parser.add_subparsers(
       dest='sub_cmd', title='sub commands', help='-h, --help', metavar='[sub-command]')
 
-  # Role operations
+  # Tag a role
   parser_tag_role = subparsers.add_parser(
       'tag-role',
       formatter_class=argparse.RawDescriptionHelpFormatter,
       help="update version in requirements.yml file",
-      description=textwrap.dedent('''example:
-  # update role 'jenkins' in requirements.yml with version '2.0.0' for the 'dev' environment
-  puppeteer tag-role jenkins -e dev -t 2.0.0
+      description=textwrap.dedent('''
+  Update a role's version in requirements.yml file     
+
+  Examples:
+    # update role 'jenkins' in requirements.yml with version '2.0.0' for environment 'dev'
+    puppeteer tag-role jenkins -t 2.0.0 -e dev 
+
+    # update role 'jenkins' in requirements.yml with version '2.0.0' for all environments
+    puppeteer tag-role jenkins -t 2.0.0 -e all
       '''))
   parser_tag_role.add_argument('name', help='name of role')
   parser_tag_role_required = parser_tag_role.add_argument_group(
@@ -31,6 +38,35 @@ def main(envs):
                                         help='tag a role with a version')
   parser_tag_role_required.add_argument('-e', '--env', choices=envs+['all'],
                                         help='target environment')
+
+  # Develop a role
+  parser_develop_role = subparsers.add_parser(
+      'dev-role',
+      formatter_class=argparse.RawDescriptionHelpFormatter,
+      help='develop and test role locally against a target environment',
+      description=textwrap.dedent('''
+  Symlink from target environment directory to role in a development workspace      
+
+  Examples:
+    # symlink from 'environments/dev/roles/jenkins' to default workspace '.puppeteer/roles/jenkins'
+    puppeteer dev-role jenkins -e dev
+
+    # symlink from 'environments/dev/roles/jenkins' to custom workspace '/var/tmp/role/jenkins'
+    puppeteer dev-role jenkins --workspace /var/tmp/roles -e dev
+
+    # remove symlink
+    puppeteer dev-role jenkins -e dev --clean
+
+      '''))
+  parser_develop_role.add_argument('name', help='name of role')
+  parser_develop_role.add_argument('-w', '--workspace',
+                                   help='override default workspace ~/.puppeteer/roles')
+  parser_develop_role.add_argument('-c', '--clean', action='store_true',
+                                   help='remove symlink to role in workspace')
+  parser_develop_role_required = parser_develop_role.add_argument_group(
+      'required arguments')
+  parser_develop_role_required.add_argument('-e', '--env', choices=envs, required=True,
+                                            help='symlink to workspace')
 
   # List roles
   parser_list_roles = subparsers.add_parser(

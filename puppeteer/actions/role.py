@@ -1,8 +1,8 @@
 import sys
 from ..fileops import YAMLFile, YAMLFileError
-from ..constants import REPO_FILE, CROSS
+from ..constants import REPO_FILE, PUPPETEER_WORKSPACE, CROSS
 from ..colourize import color
-from ..utils.admin_tasks import run_cmd, AdminTasksError
+from ..utils.admin_tasks import run_cmd, AdminTasksError, dir_exists, remove_dir, symlink_exists, symlink, make_dirs
 
 
 class RoleError(Exception):
@@ -32,6 +32,7 @@ class Role(object):
                    file
     """
 
+    self.workspace = "{0}/roles".format(PUPPETEER_WORKSPACE)
     # Get repo data from requirements.yml
     self._req_file_path = "environments/{0}/{1}".format(env, REPO_FILE)
     self._requirements = YAMLFile(self._req_file_path)
@@ -39,9 +40,7 @@ class Role(object):
     try:
       data = self._requirements.read()
     except YAMLFileError, e:
-      print(
-          color('red', "{0} {1}".format(CROSS, e)))
-      sys.exit(1)
+      raise RoleError(e)
 
     if data is not None:
       self.repos = data
@@ -62,7 +61,7 @@ class Role(object):
         tuple: role name and new version in requirements.yml
 
     Raises:
-        RoleError: notify user if the version is already set 
+        RoleError: notify user if the version is already set
                    or role does not exist in requirements.yml
     """
     for repo in self.repos:
@@ -98,7 +97,7 @@ class Role(object):
     """Show roles in requirements.yml
 
     Returns:
-        str: contents of file 
+        str: contents of file
     """
     return self._requirements.show()
 
@@ -125,3 +124,53 @@ class Role(object):
         run_cmd(default_cmd)
     except AdminTasksError, e:
       raise RoleError(e)
+
+  def _create_workspace(self):
+    """Create default workspace"""
+
+    try:
+      make_dirs(self.workspace)
+    except AdminTasksError as e:
+      raise RoleError(e)
+
+  def symlink_local_role(self, role_name, workspace=None):
+    """Symlink environments/{env}/roles/{role_name} to workspace {basedir}/{role_name}
+
+    Args:
+      role_name (str): Name of role
+      workspace (str): Base directory for local role 
+    """
+
+    if not workspace:
+      self._create_workspace()
+    else:
+      self.workspace = workspace
+
+    local_role_path = "{0}/{1}".format(self.workspace, role_name)
+    environment_role_path = "{0}/{1}".format(self.roles_path, role_name)
+
+    if dir_exists(local_role_path):
+      # Remove environments/{env}/roles/{role_name} dir
+      try:
+        remove_dir(environment_role_path)
+      except AdminTasksError as e:
+        raise RoleError(e)
+
+      # Symlink environments/{env}/roles/{role_name} to workspace {basedir}/{role_name}
+      symlink(local_role_path, environment_role_path)
+    else:
+      raise RoleError(
+          "Development role '{0}' does not exist".format(local_role_path))
+
+  def unsymlink_local_role(self, role_name):
+    """Remove symlink environments/{env}/roles/{role_name} to workspace {basedir}/{role_name}
+
+    Args:
+      role_name (str): Name of role
+    """
+
+    environment_role_path = "{0}/{1}".format(self.roles_path, role_name)
+    if not symlink_exists(environment_role_path):
+      raise RoleError('Symlink already removed', RoleError.EXISTS)
+
+    remove_dir(environment_role_path)

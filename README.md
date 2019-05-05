@@ -75,6 +75,7 @@ optional arguments:
 sub commands:
   [sub-command]  -h, --help
     tag-role     update version in requirements.yml file
+    dev-role     develop and test role locally against a target environment
     list-roles   list all roles requirements.yml file
     fetch-roles  fetch roles
     init         generate layout for a new project or reinitialize an existing
