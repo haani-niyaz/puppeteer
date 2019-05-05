@@ -87,7 +87,7 @@ sub commands:
 
 ## Puppeteer in Action
 
-### Create project
+### Create Project
 
 To begin using `puppeteer` a `.puppeteer.yml` must exist in your project's root directory.  This file contains a list of mandatory environments to initialize the `puppeteer` cli. Ansible settings should also be added to this file if required.
 
