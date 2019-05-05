@@ -39,6 +39,7 @@ class ControlRepo(object):
     self.env_dir = 'environments'
     self.group_dir = 'group_vars'
     self.host_dir = 'host_vars'
+    self.roles_dir = 'roles'
 
   def create_layout(self):
     """Create control repo layout"""
@@ -50,11 +51,12 @@ class ControlRepo(object):
             "{0}/{1}/{2}".format(self.env_dir, sub_dir, self.group_dir))
         admin_tasks.make_dirs(
             "{0}/{1}/{2}".format(self.env_dir, sub_dir, self.host_dir))
+        admin_tasks.make_dirs(
+            "{0}/{1}/{2}".format(self.env_dir, sub_dir, self.roles_dir))
         admin_tasks.make_file(
             "{0}/{1}/{2}".format(self.env_dir, sub_dir, self.repo_file))
         admin_tasks.make_file(
             "{0}/{1}/{2}".format(self.env_dir, sub_dir, self.inventory_file))
 
     except admin_tasks.AdminTasksError, e:
-      print(e)
-      sys.exit(1)
+      raise ControlRepoError(e)
