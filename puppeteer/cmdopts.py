@@ -21,9 +21,15 @@ def main(envs):
       'tag-role',
       formatter_class=argparse.RawDescriptionHelpFormatter,
       help="update version in requirements.yml file",
-      description=textwrap.dedent('''example:
-  # update role 'jenkins' in requirements.yml with version '2.0.0' for the 'dev' environment
-  puppeteer tag-role jenkins -e dev -t 2.0.0
+      description=textwrap.dedent('''
+  Update a role's version in requirements.yml file     
+
+  Examples:
+    # update role 'jenkins' in requirements.yml with version '2.0.0' in environment 'dev'
+    puppeteer tag-role jenkins -t 2.0.0 -e dev 
+
+    # update role 'jenkins' in requirements.yml with version '2.0.0' in all environments
+    puppeteer tag-role jenkins -t 2.0.0 -e all
       '''))
   parser_tag_role.add_argument('name', help='name of role')
   parser_tag_role_required = parser_tag_role.add_argument_group(
@@ -38,15 +44,18 @@ def main(envs):
       'dev-role',
       formatter_class=argparse.RawDescriptionHelpFormatter,
       help='develop and test role locally against a target environment',
-      description=textwrap.dedent('''examples:        
-  # symlink from 'environments/dev/roles/jenkins' to default workspace '.puppeteer/roles/jenkins'
-  puppeteer dev-role jenkins -e dev
+      description=textwrap.dedent('''
+  Symlink from environment directory to role in a development workspace      
 
-  # symlink from 'environments/dev/roles/jenkins' to custom workspace '/var/tmp/role/jenkins'
-  puppeteer dev-role jenkins --workspace /var/tmp/roles -e dev
+  Examples:
+    # symlink from 'environments/dev/roles/jenkins' to default workspace '.puppeteer/roles/jenkins'
+    puppeteer dev-role jenkins -e dev
 
-  # remove symlink 
-  puppeteer dev-role jenkins -e dev --clean
+    # symlink from 'environments/dev/roles/jenkins' to custom workspace '/var/tmp/role/jenkins'
+    puppeteer dev-role jenkins --workspace /var/tmp/roles -e dev
+
+    # remove symlink
+    puppeteer dev-role jenkins -e dev --clean
 
       '''))
   parser_develop_role.add_argument('name', help='name of role')
