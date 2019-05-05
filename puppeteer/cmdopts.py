@@ -25,10 +25,10 @@ def main(envs):
   Update a role's version in requirements.yml file     
 
   Examples:
-    # update role 'jenkins' in requirements.yml with version '2.0.0' in environment 'dev'
+    # update role 'jenkins' in requirements.yml with version '2.0.0' for environment 'dev'
     puppeteer tag-role jenkins -t 2.0.0 -e dev 
 
-    # update role 'jenkins' in requirements.yml with version '2.0.0' in all environments
+    # update role 'jenkins' in requirements.yml with version '2.0.0' for all environments
     puppeteer tag-role jenkins -t 2.0.0 -e all
       '''))
   parser_tag_role.add_argument('name', help='name of role')
