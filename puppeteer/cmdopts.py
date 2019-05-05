@@ -25,11 +25,11 @@ def main(envs):
   Update a role's version in requirements.yml file     
 
   Examples:
-    # update role 'jenkins' in requirements.yml with version '2.0.0' for environment 'dev'
-    puppeteer tag-role jenkins -t 2.0.0 -e dev 
+    # update role 'foo' in requirements.yml with version '2.0.0' for environment 'dev'
+    puppeteer tag-role foo -t 2.0.0 -e dev 
 
-    # update role 'jenkins' in requirements.yml with version '2.0.0' for all environments
-    puppeteer tag-role jenkins -t 2.0.0 -e all
+    # update role 'foo' in requirements.yml with version '2.0.0' for all environments
+    puppeteer tag-role foo -t 2.0.0 -e all
       '''))
   parser_tag_role.add_argument('name', help='name of role')
   parser_tag_role_required = parser_tag_role.add_argument_group(
@@ -48,14 +48,14 @@ def main(envs):
   Symlink from target environment directory to role in a development workspace      
 
   Examples:
-    # symlink from 'environments/dev/roles/jenkins' to default workspace '.puppeteer/roles/jenkins'
-    puppeteer dev-role jenkins -e dev
+    # symlink from 'environments/dev/roles/foo' to default workspace '~/.puppeteer/roles/foo'
+    puppeteer dev-role foo -e dev
 
-    # symlink from 'environments/dev/roles/jenkins' to custom workspace '/var/tmp/role/jenkins'
-    puppeteer dev-role jenkins --workspace /var/tmp/roles -e dev
+    # symlink from 'environments/dev/roles/foo' to custom workspace '/var/tmp/roles/foo'
+    puppeteer dev-role foo --workspace /var/tmp/roles -e dev
 
     # remove symlink
-    puppeteer dev-role jenkins -e dev --clean
+    puppeteer dev-role foo -e dev --clean
 
       '''))
   parser_develop_role.add_argument('name', help='name of role')
