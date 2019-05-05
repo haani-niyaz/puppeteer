@@ -45,7 +45,7 @@ def main(envs):
       formatter_class=argparse.RawDescriptionHelpFormatter,
       help='develop and test role locally against a target environment',
       description=textwrap.dedent('''
-  Symlink from environment directory to role in a development workspace      
+  Symlink from target environment directory to role in a development workspace      
 
   Examples:
     # symlink from 'environments/dev/roles/jenkins' to default workspace '.puppeteer/roles/jenkins'
