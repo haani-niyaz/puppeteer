@@ -102,7 +102,12 @@ class Role(object):
     return self._requirements.show()
 
   def update_repo_file(self, data):
-    self._requirements.write(data)
+    """Update requirements.yml"""
+
+    try:
+      self._requirements.write(data)
+    except YAMLFileError as e:
+      raise RoleError(e)
 
   def fetch(self, option=None):
     """Get ansible roles in requirements.yml
