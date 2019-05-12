@@ -51,18 +51,18 @@ class Role(object):
     self.repo_fetcher = 'ansible-galaxy'
 
   def tag(self, name, version):
-    """Update a role's tag in requirements.yml
+    """Update a role's tag
 
     Args:
         name (str): role name
         version (str): version to set
 
     Returns:
-        dict: updated requirements.yml for role tag
+        list: repo data
 
     Raises:
         RoleError: notify user if the version is already set
-                   or role does not exist in requirements.yml
+                   or role does not exist
     """
     for repo in self.repos:
       if repo['name'] == name:
