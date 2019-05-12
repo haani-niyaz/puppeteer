@@ -11,7 +11,7 @@ from .actions.role import Role, RoleError
 from .constants import USER_CONFIG_FILE, ANSIBLE_CONFIG_FILE, PROJECT_URL, CROSS, TICK
 
 
-def execute_tag_role(name='', tag='', env=''):
+def execute_tag_role(name, tag, env):
   """Control flow to tag a role
 
   Args:
