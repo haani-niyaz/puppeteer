@@ -58,7 +58,7 @@ class Role(object):
         version (str): version to set
 
     Returns:
-        tuple: role name and new version in requirements.yml
+        dict: updated requirements.yml for role tag
 
     Raises:
         RoleError: notify user if the version is already set
