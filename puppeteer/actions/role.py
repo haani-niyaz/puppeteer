@@ -75,7 +75,7 @@ class Role(object):
 
     raise RoleError("Role '%s' does not exist" % name)
 
-  def confirm_tag(self, name):
+  def get_tag(self, name):
     """Get tag for a role
 
     Args:
@@ -85,13 +85,13 @@ class Role(object):
         tuple: role name and tag
 
     Raises:
-        RoleError: Description
+        RoleError: notify user if role does not exist
     """
     for repo in self.repos:
       if repo['name'] == name:
         return (repo['name'], repo['version'])
 
-    raise RoleError('Something went wrong')
+    raise RoleError("Role '%s' does not exist" % name)
 
   def list_roles(self):
     """Show roles in requirements.yml

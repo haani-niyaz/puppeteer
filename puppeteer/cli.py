@@ -24,7 +24,7 @@ def execute_tag_role(name='', tag='', env=''):
     print(color('cyan', '+ Updating {0} environment..'.format(env)))
     updated_repo_data = role.tag(name, tag)
     role.update_repo_file(updated_repo_data)
-    print(color('green', role.confirm_tag(name)))
+    print(color('green', role.get_tag(name)))
     print(color('cyan', " {0} Done.".format(TICK)))
   except RoleError, e:
     if e.ec == RoleError.EXISTS:
