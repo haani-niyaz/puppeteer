@@ -82,7 +82,7 @@ class YAMLFile(FileOps):
 
     try:
       with open(self._infile, 'r') as stream:
-        return yaml.load(stream)
+        return yaml.load(stream, Loader=yaml.FullLoader)
     except yaml.scanner.ScannerError, e:
       raise YAMLFileError(self._marker(e))
     except yaml.YAMLError, e:

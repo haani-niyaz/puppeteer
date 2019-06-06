@@ -20,6 +20,6 @@ setup(
         ],
     },
     install_requires=[
-        "pyyaml >= 3.10",
+        "pyyaml >= 5.1",
     ],
 )
