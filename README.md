@@ -26,7 +26,7 @@ Git is a powerful tool but managing environments as 'branches' in my experience 
 
 ### Where does `puppeteer` fit in?
 
-`puppeteer` is designed to conform to the above methodology and provides the shortcuts to enable this workflow.
+`puppeteer` is designed to enable the methodology described above and provides shortcuts to easily conform to this workflow.
 
 ## Quick Start
 
