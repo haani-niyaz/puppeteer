@@ -1,5 +1,6 @@
 """System admin tasks"""
 
+from __future__ import print_function
 import os
 import errno
 import pwd
@@ -102,13 +103,17 @@ def run_cmd(cmd):
   except CalledProcessError, e:
     raise AdminTasksError("Is '{0}' executable in your path?".format(cmd[0]))
 
-  process = Popen(cmd, stdout=PIPE, stderr=PIPE)
-  # Wait for child process to terminate before checking ext code
-  process.wait()
+  p = Popen(
+      cmd, stdout=PIPE, stderr=PIPE)
+  stdout = []
+  # Live output
+  while True:
+    line = p.stdout.readline()
+    stdout.append(line)
+    print(line, end='')
+    if line == '' and p.poll() != None:
+      break
 
-  # Write to stdout if no failures
-  if process.returncode == 0:
-    [sys.stdout.write(line) for line in process.stdout]
-  else:
-    message = ''.join(process.stderr)
-    raise AdminTasksError(message)
+  if p.returncode != 0:
+    # Raise exception with stderr output
+    raise AdminTasksError(p.stderr.read())
