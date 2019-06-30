@@ -45,9 +45,10 @@ Args:
   print(color('cyan', '+ Fetching roles...'))
   try:
     roles.fetch('--force') if force else roles.fetch()
-    print(color('cyan', " {0} Done.".format(TICK)))
+    print(color('cyan', "{0} Done.".format(TICK)))
   except RoleError, e:
-    print(color('red', "{0} {1}".format(CROSS, e.message)))
+    # Omit space because output starts with a blank space
+    print(color('red', "{0}{1}".format(CROSS, e.message)))
     sys.exit(1)
 
 
