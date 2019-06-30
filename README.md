@@ -26,7 +26,7 @@ Git is a powerful tool but managing environments as 'branches' in my experience 
 
 ### Where does `puppeteer` fit in?
 
-`puppeteer` is designed to conform to the above methodology and provides the shortcuts to enable this workflow.
+`puppeteer` is designed to enable the methodology described above and provides shortcuts to easily conform to this workflow.
 
 ## Quick Start
 
@@ -89,7 +89,7 @@ sub commands:
 
 ### Create Project
 
-To begin using `puppeteer` a `.puppeteer.yml` must exist in your project's root directory.  This file contains a list of mandatory environments to initialize the `puppeteer` cli. Ansible settings should also be added to this file if required.
+To begin using `puppeteer` a `.puppeteer.yml` file must exist in your project's root directory.  This file contains a list of mandatory environments to initialize the `puppeteer` cli. Ansible settings should also be added to this file if required.
 
 Let's begin by creating the `.puppeteer.yml` file with 3 environments and an optional Ansible parameter:
 
